@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProprietaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProprietaireRepository::class)]
@@ -28,6 +30,18 @@ class Proprietaire
     #[ORM\ManyToOne(inversedBy: 'proprietaires')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\OneToMany(targetEntity: Moto::class, mappedBy: 'proprietaire')]
+    private Collection $motos;
+
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
+    private Collection $commentaires;
+
+    public function __construct()
+    {
+        $this->motos = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +104,66 @@ class Proprietaire
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Moto>
+     */
+    public function getMotos(): Collection
+    {
+        return $this->motos;
+    }
+
+    public function addMoto(Moto $moto): static
+    {
+        if (!$this->motos->contains($moto)) {
+            $this->motos->add($moto);
+            $moto->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMoto(Moto $moto): static
+    {
+        if ($this->motos->removeElement($moto)) {
+            // set the owning side to null (unless already changed)
+            if ($moto->getProprietaire() === $this) {
+                $moto->setProprietaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProprietaire() === $this) {
+                $commentaire->setProprietaire(null);
+            }
+        }
 
         return $this;
     }

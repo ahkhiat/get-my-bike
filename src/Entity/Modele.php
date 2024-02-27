@@ -19,6 +19,9 @@ class Modele
     private ?string $marque = null;
 
     #[ORM\Column(length: 255)]
+    private ?string $libelle = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
@@ -26,6 +29,8 @@ class Modele
 
     #[ORM\OneToMany(targetEntity: Moto::class, mappedBy: 'modele')]
     private Collection $motos;
+
+   
 
     public function __construct()
     {
@@ -45,6 +50,18 @@ class Modele
     public function setMarque(string $marque): static
     {
         $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getLibelle(): ?string
+    {
+        return $this->libelle;
+    }
+
+    public function setLibelle(string $libelle): static
+    {
+        $this->libelle = $libelle;
 
         return $this;
     }
@@ -102,4 +119,6 @@ class Modele
 
         return $this;
     }
+
+  
 }

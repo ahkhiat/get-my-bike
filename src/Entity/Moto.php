@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MotoRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,21 @@ class Moto
     #[ORM\ManyToOne(inversedBy: 'motos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Modele $modele = null;
+
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'moto')]
+    private Collection $reservations;
+
+    #[ORM\ManyToOne(inversedBy: 'motos')]
+    private ?Proprietaire $proprietaire = null;
+
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'moto')]
+    private Collection $commentaires;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +138,78 @@ class Moto
     public function setModele(?Modele $modele): static
     {
         $this->modele = $modele;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setMoto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getMoto() === $this) {
+                $reservation->setMoto(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getProprietaire(): ?Proprietaire
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(?Proprietaire $proprietaire): static
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentaire>
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): static
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires->add($commentaire);
+            $commentaire->setMoto($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): static
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getMoto() === $this) {
+                $commentaire->setMoto(null);
+            }
+        }
 
         return $this;
     }

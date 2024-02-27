@@ -26,6 +26,18 @@ class Commentaire
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $texteProprio = null;
 
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Moto $moto = null;
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Proprietaire $proprietaire = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +87,42 @@ class Commentaire
     public function setTexteProprio(?string $texteProprio): static
     {
         $this->texteProprio = $texteProprio;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMoto(): ?Moto
+    {
+        return $this->moto;
+    }
+
+    public function setMoto(?Moto $moto): static
+    {
+        $this->moto = $moto;
+
+        return $this;
+    }
+
+    public function getProprietaire(): ?Proprietaire
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(?Proprietaire $proprietaire): static
+    {
+        $this->proprietaire = $proprietaire;
 
         return $this;
     }
