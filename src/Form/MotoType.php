@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class MotoType extends AbstractType
 {
@@ -23,12 +24,13 @@ class MotoType extends AbstractType
             ->add('moyenneNotes')
             ->add('modele', EntityType::class, [
                 'class' => Modele::class,
-'choice_label' => 'id',
+'choice_label' => 'libelle',
             ])
             ->add('proprietaire', EntityType::class, [
                 'class' => Proprietaire::class,
-'choice_label' => 'id',
+'choice_label' => 'user.nom',
             ])
+            ->add('imageFile', VichImageType::class)
         ;
     }
 

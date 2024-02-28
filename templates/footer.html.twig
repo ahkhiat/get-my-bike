@@ -1,0 +1,27 @@
+
+
+<footer class="bg-body-tertiary text-center">
+
+  <div class="container p-4">
+
+
+    <section class="">
+
+{% if app.user and 'ROLE_USER' in app.user.getroles()%}
+
+  {% include 'footer-logged.html.twig' %}
+  
+{% endif %}
+
+    </section>
+
+  </div>
+
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2024 Copyright:
+    Thierry Leung
+  </div>
+
+</footer>
+
+

@@ -22,6 +22,16 @@ class MotoController extends AbstractController
         ]);
     }
 
+    #[Route('/card', name: 'app_moto_card', methods: ['GET'])]
+    public function card(MotoRepository $motoRepository): Response
+    {
+        return $this->render('moto/search.html.twig', [
+            'motos' => $motoRepository->findAll(),
+        ]);
+    }
+
+    
+
     #[Route('/new', name: 'app_moto_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

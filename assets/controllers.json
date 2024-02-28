@@ -1,5 +1,5 @@
 {
-    "controllers": [{
+    "controllers": {
         "@symfony/ux-turbo": {
             "turbo-core": {
                 "enabled": true,
@@ -10,6 +10,6 @@
                 "fetch": "eager"
             }
         }
-    }],
+    },
     "entrypoints": []
 }

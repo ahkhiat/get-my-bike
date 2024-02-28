@@ -7,8 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: MotoRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
+
 class Moto
 {
     #[ORM\Id]
@@ -26,7 +31,7 @@ class Moto
     private ?int $prixJour = null;
 
     #[ORM\Column]
-    private ?bool $dispo = null;
+    private ?bool $dispo = false;
 
     #[ORM\Column(nullable: true)]
     private ?int $nombreNotes = null;
@@ -46,6 +51,21 @@ class Moto
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'moto')]
     private Collection $commentaires;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+     #[Vich\UploadableField(mapping: 'moto_images', fileNameProperty: 'imageName')]
+     private ?File $imageFile = null;
+ 
+     #[ORM\Column(nullable: true)]
+     private ?string $imageName = null;
+
+     #[ORM\Column(type: Types::TEXT)]
+     private ?string $description = null;
+
+    //  #[ORM\Column(nullable: true)]
+    // private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -213,4 +233,60 @@ class Moto
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    // public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    // {
+    //     $this->createdAt = $createdAt;
+
+    //     return $this;
+    // }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
 }

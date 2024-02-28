@@ -38,6 +38,9 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Proprietaire $proprietaire = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,6 +126,18 @@ class Commentaire
     public function setProprietaire(?Proprietaire $proprietaire): static
     {
         $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

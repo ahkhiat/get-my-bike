@@ -3,13 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Controller\MotoController;
+use App\Entity\Commentaire;
+use App\Entity\Moto;
+use App\Entity\Reservation;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use \App\Entity\Modele;
+use \App\Entity\Proprietaire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
+use App\Controller\Admin\UserCrudController;
 
 
 class DashboardController extends AbstractDashboardController
@@ -48,11 +55,17 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('Get My Bike');
+            
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('Propriétaires', 'fas fa-list', Proprietaire::class);
+        yield MenuItem::linkToCrud('Motos', 'fas fa-list', Moto::class);
+        yield MenuItem::linkToCrud('Modèles', 'fas fa-list', Modele::class);
+        yield MenuItem::linkToCrud('Reservations', 'fas fa-list', Reservation::class);
+        yield MenuItem::linkToCrud('Commentaires', 'fas fa-list', Commentaire::class);
     }
 }

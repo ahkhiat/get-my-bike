@@ -6,8 +6,12 @@ use App\Repository\ProprietaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+
 
 #[ORM\Entity(repositoryClass: ProprietaireRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Proprietaire
 {
     #[ORM\Id]
@@ -36,6 +40,9 @@ class Proprietaire
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
     private Collection $commentaires;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     public function __construct()
     {
@@ -166,5 +173,22 @@ class Proprietaire
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    // public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    // {
+    //     $this->createdAt = $createdAt;
+
+    //     return $this;
+    // }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 }
