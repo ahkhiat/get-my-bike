@@ -25,9 +25,7 @@
 					{% endif %}
 					<li class="nav-item">
 						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-							{% if not app.user %}
-								<a href="/login">Login</a>
-							{% endif %}
+							
 
 							{% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
 								<p>ADMIN</p>
@@ -43,21 +41,24 @@
 				{% if app.user %}
 					{# <div class="mb-3"> #}
 					<ul class="navbar-nav me-5 mb-2 mb-lg-0">
-
+						
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 								<button type="button" class="btn btn-warning btn-circle btn-xl">TL</button>
 							</a>
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu dropdown-menu-end">
 								<li><a class="dropdown-item" href="/">Profil</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="/admin">Admin Dashboard</a></li>
-								<li><a class="dropdown-item" href="/fournisseurs/fournisseursparville">Recherche par ville</a></li>
-								<li><a class="dropdown-item" href="/fournisseurs/fournisseursparpays">Recherche par pays</a></li>
+								<li><a class="dropdown-item" href="/logout">Logout</a></li>
+
 							</ul>
 						</li>
 					</ul>
 					{# </div> #}
+				{% endif %}
+				{% if not app.user %}
+					<a href="/login">Se connecter</a>
 				{% endif %}
 			</div>
 		</div>

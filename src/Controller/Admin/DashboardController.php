@@ -17,6 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use App\Controller\Admin\UserCrudController;
+use Symfony\Component\Security\Core\User\UserInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
+
 
 
 class DashboardController extends AbstractDashboardController
@@ -60,12 +63,47 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-dashboard');
+        yield MenuItem::section('Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-user', User::class);
         yield MenuItem::linkToCrud('Propriétaires', 'fas fa-user', Proprietaire::class);
+        yield MenuItem::section('Motos');
         yield MenuItem::linkToCrud('Motos', 'fas fa-motorcycle', Moto::class);
         yield MenuItem::linkToCrud('Modèles', 'fas fa-motorcycle', Modele::class);
+        yield MenuItem::section('Reservations');
         yield MenuItem::linkToCrud('Reservations', 'fas fa-list', Reservation::class);
         yield MenuItem::linkToCrud('Commentaires', 'fas fa-list', Commentaire::class);
+        yield MenuItem::section();
+
+        yield MenuItem::linkToUrl('Home', 'fa fa-home', $this->generateUrl('app_home'));
+
     }
+
+    // public function configureUserMenu(UserInterface $user): UserMenu
+    // {
+    //     // Usually it's better to call the parent method because that gives you a
+    //     // user menu with some menu items already created ("sign out", "exit impersonation", etc.)
+    //     // if you prefer to create the user menu from scratch, use: return UserMenu::new()->...
+    //     return parent::configureUserMenu($user)
+    //         // use the given $user object to get the user name
+    //         ->setName($user->getNom())
+    //         // use this method if you don't want to display the name of the user
+    //         ->displayUserName(false)
+
+    //         // you can return an URL with the avatar image
+    //         // ->setAvatarUrl('https://...')
+    //         ->setAvatarUrl($user->getImageName())
+    //         // use this method if you don't want to display the user image
+    //         ->displayUserAvatar(false)
+    //         // you can also pass an email address to use gravatar's service
+    //         ->setGravatarEmail($user->getEmail())
+
+    //         // you can use any type of menu item, except submenus
+    //         ->addMenuItems([
+    //             MenuItem::linkToRoute('My Profile', 'fa fa-id-card', '...', ['...' => '...']),
+    //             MenuItem::linkToRoute('Settings', 'fa fa-user-cog', '...', ['...' => '...']),
+    //             MenuItem::section(),
+    //             // MenuItem::linkToLogout('Logout', 'fa fa-sign-out'),
+    //         ]);
+    // }
 }
