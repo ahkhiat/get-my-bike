@@ -1,5 +1,14 @@
 <header>
-
+<style type="text/css">
+		.btn-circle.btn-xl {
+			width: 40px;
+			height: 40px;
+			padding: 2px 8px;
+			border-radius: 60px;
+			font-size: 20px;
+			text-align: center;
+		}
+	</style>
 
 	<nav class="navbar navbar-expand-lg bg-body-tertiary">
 		<div class="container-fluid">
@@ -14,46 +23,44 @@
 					{% if app.user %}
 						{% include 'header-logged.html.twig' %}
 					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+							{% if not app.user %}
+								<a href="/login">Login</a>
+							{% endif %}
 
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Reservations
+							{% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
+								<p>ADMIN</p>
+							{% endif %}
+
+							{% if app.user and not 'ROLE_ADMIN' in app.user.getroles()%}
+								<p>USER</p>
+							{% endif %}
 						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="/">Profil</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li><a class="dropdown-item" href="/admin">Admin Dashboard</a></li>
-							<li><a class="dropdown-item" href="/fournisseurs/fournisseursparville">Recherche par ville</a></li>
-							<li><a class="dropdown-item" href="/fournisseurs/fournisseursparpays">Recherche par pays</a></li>
-						</ul>
 					</li>
-
-
 				</ul>
+
+				{% if app.user %}
+					{# <div class="mb-3"> #}
+					<ul class="navbar-nav me-5 mb-2 mb-lg-0">
+
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<button type="button" class="btn btn-warning btn-circle btn-xl">TL</button>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/">Profil</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/admin">Admin Dashboard</a></li>
+								<li><a class="dropdown-item" href="/fournisseurs/fournisseursparville">Recherche par ville</a></li>
+								<li><a class="dropdown-item" href="/fournisseurs/fournisseursparpays">Recherche par pays</a></li>
+							</ul>
+						</li>
+					</ul>
+					{# </div> #}
+				{% endif %}
 			</div>
-
-
 		</div>
-		{% if not app.user %}
-			<a href="/login">Login</a>
-		{% endif %}
-
-		{% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
-			<p>ADMIN</p>
-		{% endif %}
-		{% if app.user and 'ROLE_USER' in app.user.getroles()%}
-			<p>USER</p>
-		{% endif %}
-
-
-		{% if app.user %}
-			{# <div class="mb-3"> #}
-			{{ app.user.userIdentifier }}
-			<br>
-			<a href="/logout">Logout</a>
-			{# </div> #}
-		{% endif %}
-
 	</nav>
 
 
