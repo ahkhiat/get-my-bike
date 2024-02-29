@@ -43,6 +43,13 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('nom')
+            ->add('prenom')
+            ->add('adresse')
+            ->add('codepostal')
+            ->add('ville')
+            ->add('telephone')
+
         ;
     }
 
