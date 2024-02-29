@@ -23,7 +23,9 @@ class UserType extends AbstractType
             ->add('codePostal')
             ->add('ville')
             ->add('telephone')
-            ->add('imageFile', VichImageType::class)
+            ->add('imageFile', VichImageType::class,[
+                'required'=>false,
+            ])
         ;
     }
 
