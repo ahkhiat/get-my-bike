@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+
 
 
 class UserType extends AbstractType
@@ -19,6 +21,9 @@ class UserType extends AbstractType
             ->add('password')
             ->add('nom')
             ->add('prenom')
+            ->add('datenaissance', BirthdayType::class, [
+                'placeholder' => 'Select a value',
+                ])
             ->add('adresse')
             ->add('codePostal')
             ->add('ville')

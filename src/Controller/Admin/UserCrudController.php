@@ -37,6 +37,8 @@ class UserCrudController extends AbstractCrudController
             TextField::new('email'),
             TextField::new('nom'),
             TextField::new('prenom'),
+            DateTimeField::new('datenaissance')
+                ->setFormat('d-MM-y'),
             ArrayField::new('roles'),
             TextField::new('adresse'),
             TextField::new('codepostal'),
