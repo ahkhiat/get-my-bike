@@ -5,8 +5,15 @@ namespace App\Entity;
 use App\Repository\CommentaireRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
+#[UniqueEntity(
+    fields: ['user', 'reservation'],
+    errorPath: 'user',
+    message: 'Cet utilisateur a dejà noté cette reservation'
+)]
 class Commentaire
 {
     #[ORM\Id]
@@ -14,14 +21,16 @@ class Commentaire
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2)]
-    private ?string $noteMoto = null;
+    #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
+    #[Assert\LessThan(6)]
+    private ?int $noteMoto = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $texteMoto = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2, nullable: true)]
-    private ?string $noteProprio = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $noteProprio = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $texteProprio = null;
@@ -40,6 +49,9 @@ class Commentaire
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Reservation $Reservation = null;
 
     public function getId(): ?int
     {
@@ -138,6 +150,18 @@ class Commentaire
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->Reservation;
+    }
+
+    public function setReservation(?Reservation $Reservation): static
+    {
+        $this->Reservation = $Reservation;
 
         return $this;
     }

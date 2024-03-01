@@ -64,6 +64,9 @@ class Moto
      #[ORM\Column(type: Types::TEXT)]
      private ?string $description = null;
 
+     #[ORM\Column]
+     private ?bool $bagagerie = null;
+
     //  #[ORM\Column(nullable: true)]
     // private ?\DateTimeImmutable $updatedAt = null;
 
@@ -285,6 +288,18 @@ class Moto
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isBagagerie(): ?bool
+    {
+        return $this->bagagerie;
+    }
+
+    public function setBagagerie(bool $bagagerie): static
+    {
+        $this->bagagerie = $bagagerie;
 
         return $this;
     }
