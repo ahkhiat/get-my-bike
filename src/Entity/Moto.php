@@ -61,7 +61,7 @@ class Moto
      #[ORM\Column(nullable: true)]
      private ?string $imageName = null;
 
-     #[ORM\Column(type: Types::TEXT)]
+     #[ORM\Column(type: Types::TEXT, nullable: true)]
      private ?string $description = null;
 
      #[ORM\Column]
