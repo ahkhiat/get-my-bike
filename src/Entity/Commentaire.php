@@ -9,11 +9,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
-#[UniqueEntity(
-    fields: ['user', 'reservation'],
-    errorPath: 'user',
-    message: 'Cet utilisateur a dejà noté cette reservation'
-)]
+// #[UniqueEntity(
+//     fields: ['user', 'reservation'],
+//     errorPath: 'user',
+//     message: 'Cet utilisateur a dejà noté cette reservation'
+// )]
 class Commentaire
 {
     #[ORM\Id]
@@ -43,15 +43,19 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Moto $moto = null;
 
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Proprietaire $proprietaire = null;
-
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+// J'ai enlevé cette proprieté (cascade: ['persist', 'remove']) pour remplacer par (inversedBy: 'commentaires')
+// Penser à remettre #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+
+    #[ORM\ManyToOne(inversedBy: 'commentaires')]
     private ?Reservation $Reservation = null;
+
+    // public function __construct()
+    // {
+    //     $this->createdAt = new \DateTimeImmutable();
+    // }
 
     public function getId(): ?int
     {
@@ -130,28 +134,22 @@ class Commentaire
         return $this;
     }
 
-    public function getProprietaire(): ?Proprietaire
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(?Proprietaire $proprietaire): static
-    {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
+    // public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    // {
+    //     $this->createdAt = $createdAt;
 
-        return $this;
+    //     return $this;
+    // }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getReservation(): ?Reservation

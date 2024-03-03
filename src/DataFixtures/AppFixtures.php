@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Proprietaire;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Modele;
 use App\Entity\Moto;
 use App\Entity\User;
+use App\Entity\Proprietaire;
+use App\Entity\Commentaire;
+use App\Entity\Reservation;
 
 
 use Faker;
@@ -19,26 +21,34 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr_FR');
 
-       
-
-        for ($i=0; $i <= 10; $i++) {
-            
-                       
-        }
+        $user1 = new User;
+        $user1->setEmail('ahkhiat@hotmail.com')
+                 ->setPassword('123456')
+                 ->setNom('Leung')
+                 ->setPrenom('Thierry')
+                 ->setDateNaissance($faker->dateTime())
+                 ->setAdresse($faker->streetAddress())
+                 ->setCodePostal($faker->postCode())
+                 ->setVille($faker->city())
+                 ->setTelephone($faker->phoneNumber())
+                 ->setIsVerified($faker->boolean())
+                 ->setImageName('user_1144760.png');
+        $manager->persist($user1);
 
         for ($i=0; $i <= 50; $i++) { 
             $user = new User;
+
             $proprio = new Proprietaire;
             $moto = new Moto;
             $modele = new Modele;
 
-
+            // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
             $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
-            $randomKey = array_rand($cylindrees, 1);
+            $randomKey = array_rand($cylindrees, 1); // renvoi un index
 
             $modele->setMarque($faker->lastName())
-                   ->setLibelle($faker->word() . " " . $cylindrees[$randomKey])
-                   ->setType($faker->word())
+                   ->setLibelle(ucfirst($faker->word() . " " . $cylindrees[$randomKey]))
+                   ->setType(ucfirst($faker->word()))
                    ->setPuissance(mt_rand(85, 200));
 
                 $modeles[] = $modele;
@@ -67,8 +77,8 @@ class AppFixtures extends Fixture
                 $users[] = $user;
                 $manager->persist($user);
 
-    
-            $proprio->setUser($users[mt_rand(0, count($users) - 1)])
+                                // méthode pour choix aléatoire d'idUser dans Proprio
+            $proprio->setUser($users[mt_rand(0, count($users) - 1)]) 
                     ->setEstSuperHote($faker->boolean());
                         
                 $proprios[] = $proprio;
@@ -83,6 +93,7 @@ class AppFixtures extends Fixture
                                       'Mon véhicule est bien entretenu et en très bon état. il dispose de tous les équipements tels que la régulation de vitesse, un radar de récul , toutes les connectivités pour le plus grand confort du pilote et du passager',
                                       'Mon véhicule est bien entretenu et en très bon état. Il dispose de toutes les options possible pour ce véhicule (kit Bluetooth, caméra de recule, etc …) pour le confort de tous. Le véhicule est livré avec une batterie pleine, il n\'est pas nécessaire de recharger le véhicule s\'il est rendu avec au moins 30 km d\'autonomie.',
                                       'Moto avec marche arrière pour une plus grande facilité de manœuvre en ville. Confortable et entretenue, elle consomme peu et vous emmènera avec facilité aussi bien en ville que sur autoroute.');
+
             $randomKeyDesc = array_rand($descriptionsMoto, 1);
 
             $moto->setModele($modeles[mt_rand(0, count($modeles) - 1)])
@@ -95,7 +106,53 @@ class AppFixtures extends Fixture
                  ->setBagagerie($faker->boolean())
                  ->setImageName($imagesMoto[$randomKey])
                 ;
+                 $motos[] = $moto;
                  $manager->persist($moto);
+
+            $reservation = new Reservation;
+
+            $reservation->setUser($users[mt_rand(0, count($users) - 1)])
+                        ->setMoto($motos[mt_rand(0, count($motos) - 1)])
+                        ->setDateDebut($faker->dateTimeBetween('-1 week'))
+                        ->setDateFin($faker->dateTimeBetween('now','+1 week'));
+
+                        $reservations[] = $reservation;
+                        $manager->persist($reservation);
+
+            $commentaire = new Commentaire;
+
+            $textesMoto = array("Très bonne moto, je recommande", "Je me suis regalé, à refaire !", 
+                                "Malgré le fait de ne pas avoir conduit pendant des années, la plaisir était toujours là !",
+                                "Excellente Moto !", "Vraiment une moto très bien entretenue et très agréable à conduire !");
+            $textesProprio = array("C'est une personne très sérieuse, je recommande !", "Il a su être rassurant, très bonne expérience !",
+                                    "Un propriétaire très sympathique, je recommande !", "Serieux et ponctuel, parfait !",
+                                    "Un peu d'appréhension des 2 cotés mais tout c'est très bien passé !", "Une expérience hors-norme grâce à elle, à recommander !");
+            
+            $randomKeyMoto = array_rand($textesMoto, 1);
+            $randomKeyProprio = array_rand($textesProprio, 1);
+
+            $commentaire->setUser($users[mt_rand(0, count($users) - 1)])
+                        ->setMoto($motos[mt_rand(0, count($motos) - 1)])
+                        ->setReservation($reservations[mt_rand(0, count($reservations) - 1)])
+                        // ->setCreatedAtValue()
+                        ->setNoteMoto(mt_rand(1,5))
+                        ->setNoteProprio(mt_rand(1,5))
+                        ->setTexteMoto($textesMoto[$randomKeyMoto])
+                        ->setTexteProprio($textesProprio[$randomKeyProprio])                    
+                        ;
+
+                        $manager->persist($commentaire);
+
+            // foreach ($motos as $moto) {
+            //     $commentaire = new Commentaire;
+            //     $commentaire->setNoteMoto(mt_rand(1, 5))
+            //                 ->setUser($users[mt_rand(0, count($users) - 1)])
+            //                 ->setMoto($moto)
+            //                 ->setReservation($reservation)
+            //                 ;
+            //     $manager->persist($commentaire);  
+            // }
+
         }
 
         $manager->flush();

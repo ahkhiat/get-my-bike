@@ -28,10 +28,6 @@ class CommentaireType extends AbstractType
                 'class' => Moto::class,
 'choice_label' => 'id',
             ])
-            ->add('proprietaire', EntityType::class, [
-                'class' => Proprietaire::class,
-'choice_label' => 'id',
-            ])
         ;
     }
 

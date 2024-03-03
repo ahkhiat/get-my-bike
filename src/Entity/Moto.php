@@ -33,12 +33,6 @@ class Moto
     #[ORM\Column]
     private ?bool $dispo = false;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nombreNotes = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2, nullable: true)]
-    private ?string $moyenneNotes = null;
-
     #[ORM\ManyToOne(inversedBy: 'motos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Modele $modele = null;
@@ -67,8 +61,21 @@ class Moto
      #[ORM\Column]
      private ?bool $bagagerie = null;
 
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $adresseMoto = null;
+
+     #[ORM\Column(length: 5, nullable: true)]
+     private ?string $codePostalMoto = null;
+
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $villeMoto = null;
+
     //  #[ORM\Column(nullable: true)]
     // private ?\DateTimeImmutable $updatedAt = null;
+
+    private ?float $average = null;
+
+    private ?int $nombreNotes = null;
 
     public function __construct()
     {
@@ -129,29 +136,9 @@ class Moto
         return $this;
     }
 
-    public function getNombreNotes(): ?int
-    {
-        return $this->nombreNotes;
-    }
 
-    public function setNombreNotes(?int $nombreNotes): static
-    {
-        $this->nombreNotes = $nombreNotes;
 
-        return $this;
-    }
-
-    public function getMoyenneNotes(): ?string
-    {
-        return $this->moyenneNotes;
-    }
-
-    public function setMoyenneNotes(?string $moyenneNotes): static
-    {
-        $this->moyenneNotes = $moyenneNotes;
-
-        return $this;
-    }
+    
 
     public function getModele(): ?Modele
     {
@@ -237,6 +224,32 @@ class Moto
         return $this;
     }
 
+    public function getAverage(): ?string
+    {
+        $commentaires = $this->commentaires;
+
+        if($commentaires->toArray() === []) {
+            $this->average = null;
+            return $this->average;
+        }
+        $total = 0;
+        foreach ($commentaires as $commentaire){
+            $total += $commentaire->getNoteMoto();
+        }
+        $this->average = $total / count($commentaires);
+
+        return $this->average;
+    }
+
+    public function getNombreNotes(): ?string
+    {
+        $commentaires = $this->commentaires;
+
+        $this->nombreNotes = count($commentaires);
+        return $this->nombreNotes;
+    }
+
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -303,5 +316,42 @@ class Moto
 
         return $this;
     }
+
+    public function getAdresseMoto(): ?string
+    {
+        return $this->adresseMoto;
+    }
+
+    public function setAdresseMoto(?string $adresseMoto): static
+    {
+        $this->adresseMoto = $adresseMoto;
+
+        return $this;
+    }
+
+    public function getCodePostalMoto(): ?string
+    {
+        return $this->codePostalMoto;
+    }
+
+    public function setCodePostalMoto(?string $codePostalMoto): static
+    {
+        $this->codePostalMoto = $codePostalMoto;
+
+        return $this;
+    }
+
+    public function getVilleMoto(): ?string
+    {
+        return $this->villeMoto;
+    }
+
+    public function setVilleMoto(?string $villeMoto): static
+    {
+        $this->villeMoto = $villeMoto;
+
+        return $this;
+    }
+
 
 }

@@ -8,28 +8,27 @@
 	{% for moto in motos %}
 
 		<div class="card mb-3 w-50">
-			<div class="row no-gutters">
-				<div class="col-md-5">
+			<div class="row no-gutters" >
+				<div class="col-md-5" >
 					<img src={{ '/images/moto/' ~ moto.imageName }} class="card-img" alt="...">
 				</div>
 				<div class="col-md-7">
-					<div class="card-body">
+					<div class="card-body d-flex flex-column justify-content-between">
 						<h5 class="card-title">{{ moto.modele.libelle }}</h5>
 						{# <p class="card-text">{{ moto.description }}</p> #}
-						<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+						{# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> #}
 
-						<div class="card border-secondary mb-3" style="max-width: 6rem;">
+						<div class="card border-secondary mb-3 " style="max-width: 6rem;">
 							<div class="card-body text-dark">
 								<h5 class="card-title">{{ moto.prixjour }} €</h5>
 								<p class="card-text">par jour</p>
 							</div>
-            </div>
-
-
-						</div>
+            			</div>
 					</div>
 				</div>
 			</div>
+		</div>
+			
       
 
 

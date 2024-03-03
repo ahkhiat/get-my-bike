@@ -20,8 +20,6 @@ class MotoType extends AbstractType
             ->add('couleur')
             ->add('prixJour')
             ->add('dispo')
-            ->add('nombreNotes')
-            ->add('moyenneNotes')
             ->add('modele', EntityType::class, [
                 'class' => Modele::class,
 'choice_label' => 'libelle',
