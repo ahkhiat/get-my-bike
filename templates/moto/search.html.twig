@@ -32,55 +32,81 @@
 						<div class="modal fade bd-example-modal-lg" id="ficheMoto{{ moto.id }}" tabindex="-1" aria-labelledby="annModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-lg">
 									<div class="modal-content">
-										<div class="modal-header">
+										{# <div class="modal-header">
 											{# <h5 class="modal-title" id="annModalLabel">Sélection du fichier à importer</h5> #}
-											{# <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> #}
-										</div>
+											{# <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
+										</div> #}
 										<div class="modal-body">
 											
 										{# <section class="h-100 gradient-custom-2"> #}
-											<div class="container py-5 h-100 ">
+											<div class="container  h-100 ">
 												<div class="row d-flex justify-content-center align-items-center h-100">
 												<div class="col col-lg-9 col-xl-7 w-100">
 													<div class="card">
-													<div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
-														<div class="ms-4 mt-5 d-flex flex-column" style="width: 200px;">
-														<img src={{ '/images/moto/' ~ moto.imageName }}
-															alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-															style="width: 200px; z-index: 1">
-														
-														</div>
-														<div class="ms-3" style="margin-top: 130px;">
-														<h3>{{ moto.modele.libelle }}</h3>
-														</div>
-													</div>
-													<div class="p-4 text-black" style="background-color: #f8f9fa;">
-														<div class="d-flex justify-content-between text-center py-1">
-															<div>
-																<p class="small text-muted mb-0">⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
 
+													<div class="card-body p-4">
+														<div class="card-body p-1 border border-solid border-2 rounded d-flex flex-column">
+
+															<div class="rounded-top  d-flex flex-row" style="background-color: #f8f9fa; height:250px;">
+																<div class="ms-4 mt-2 d-flex flex-column" style="width: 400px;">
+																	<img src={{ '/images/moto/' ~ moto.imageName }}
+																		alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+																		style="width: 400px; z-index: 1">
+																</div>
+																<div class="border border-solid border-2 rounded p-2 w-25 d-grid gap-2">
+																	<p class="mb-1 h3">{{ moto.prixjour }} €</p>
+																	<p class="small text-muted mb-0">/ par jour</p>
+																	<button type="button " class="btn btn-primary mt-2 ">Reserver</button>
+																</div>
 															</div>
-															<div>
-																<p class="mb-1 h3">{{ moto.prixjour }} €</p>
-																<p class="small text-muted mb-0">/ par jour</p>
+															<div class="p-4 text-black" style="background-color: #f8f9fa;">
+																<div class="d-flex justify-content-between text-center py-1">
+																	<div>
+																		<div class="ms-3" style="margin-top: 130px;">
+																	<h2>{{ moto.modele.libelle }}</h2>
+																</div>
+																		<p class="small text-muted mb-0 ps-3">⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
+
+																	</div>
+															
+																</div>
 															</div>
 														</div>
 													</div>
 													<div class="card-body p-4 text-black">
+														
 														<div class="mb-5">
-														<p class="lead fw-normal mb-1">Description</p>
-															<div class="p-4" style="background-color: #f8f9fa;">
+														<p class="lead fw-normal mb-1">Adresse de départ et de retour</p>
+															<div class="p-4 border border-solid border-2 rounded d-flex flex-row justify-content-between" >
+																<div class="d-flex flex-row justify-content-between">
+																<i class="fa fa-map-marker fa-2x"></i>
+																	<p class="font-italic mb-1 ms-3">{{ moto.proprietaire.user.adresse ~ " " ~ moto.proprietaire.user.codepostal ~ " " ~ moto.proprietaire.user.ville}}</p>
+																</div>
+																<div class="mapouter"><div class="gmap_canvas"><iframe width="270" height="200" id="gmap_canvas" src="https://maps.google.com/maps?q=2880%20Broadway,%20New%20York&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.org"></a><br><style>.mapouter{position:relative;text-align:right;height:200px;width:270px;}</style><a href="https://www.embedgooglemap.net"></a><style>.gmap_canvas {overflow:hidden;background:none!important;height:200px;width:270px;}</style></div></div>
+															</div>
+														</div>
+
+														<div class="mb-5">
+														<p class="lead fw-normal mb-1">Propriétaire</p>
+															<div class="p-4 border border-solid border-2 rounded d-flex flex-row">
+																<div>
+																	<img src="{{ vich_uploader_asset(moto, 'imageFile') }}" alt="{{ moto.proprietaire.user.imageName }}"
+              class="rounded-circle img-fluid" style="width: 70px;">
+																</div>
+																<div class="d-flex flex-column ms-3">
+																	<p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p>
+																	<p>⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
+																</div>
+															</div>
+														</div>
+
+														<div class="mb-5">
+														<p class="lead fw-normal mb-1">Description du véhicule</p>
+															<div class="p-4 border border-solid border-2 rounded" >
 																<p class="font-italic mb-1">{{ moto.description }}</p>
 															</div>
 														</div>
-														<div class="mb-5">
-														<p class="lead fw-normal mb-1">Propriétaire</p>
-															<div class="p-4" style="background-color: #f8f9fa;">
-																{# <img src="{{ vich_uploader_asset(moto, 'imageFile') }}" alt="{{ moto.proprietaire.user.imageName }}"
-              class="rounded-circle img-fluid" style="width: 150px;"> #}
-																<p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p>
-															</div>
-														</div>
+
 														<div class="d-flex justify-content-between align-items-center mb-4">
 														<p class="lead fw-normal mb-0">Recent photos</p>
 														<p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
