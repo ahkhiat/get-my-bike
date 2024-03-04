@@ -10,8 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>EstSuperHote</th>
-                <th>NombreNotes</th>
-                <th>MoyenneNotes</th>
+                
                 <th>IBAN</th>
                 <th>actions</th>
             </tr>
@@ -21,8 +20,7 @@
             <tr>
                 <td>{{ proprietaire.id }}</td>
                 <td>{{ proprietaire.estSuperHote ? 'Yes' : 'No' }}</td>
-                <td>{{ proprietaire.nombreNotes }}</td>
-                <td>{{ proprietaire.moyenneNotes }}</td>
+                
                 <td>{{ proprietaire.IBAN }}</td>
                 <td>
                     <a href="{{ path('app_proprietaire_show', {'id': proprietaire.id}) }}">show</a>

@@ -77,6 +77,12 @@ class Moto
 
     private ?int $nombreNotes = null;
 
+    private ?int $nombreUn = null;
+    private ?int $nombreDeux = null;
+    private ?int $nombreTrois = null;
+    private ?int $nombreQuatre = null;
+    private ?int $nombreCinq = null;
+
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -136,10 +142,7 @@ class Moto
         return $this;
     }
 
-
-
     
-
     public function getModele(): ?Modele
     {
         return $this->modele;
@@ -247,6 +250,70 @@ class Moto
 
         $this->nombreNotes = count($commentaires);
         return $this->nombreNotes;
+    }
+
+    public function getNombreUn() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 1){
+                $nombre++;
+            }
+            $this->nombreUn = $nombre;
+        }
+        return $this->nombreUn;
+    }
+    public function getNombreDeux() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 2){
+                $nombre++;
+            }
+            $this->nombreDeux = $nombre;
+        }
+        return $this->nombreDeux;
+
+    }
+    public function getNombreTrois() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 3){
+                $nombre++;
+            }
+            $this->nombreTrois = $nombre;
+        }
+        return $this->nombreTrois;
+    }
+    public function getNombreQuatre() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 4){
+                $nombre++;
+            }
+            $this->nombreQuatre = $nombre;
+        }
+        return $this->nombreQuatre;
+
+    }
+    public function getNombreCinq() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 5){
+                $nombre++;
+            }
+            $this->nombreCinq = $nombre;
+        }
+        return $this->nombreCinq;
+
     }
 
 

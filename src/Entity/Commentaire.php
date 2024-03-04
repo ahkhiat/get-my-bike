@@ -50,6 +50,8 @@ class Commentaire
 // Penser à remettre #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
 
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
+    #[ORM\JoinColumn(nullable: false)]
+
     private ?Reservation $Reservation = null;
 
     // public function __construct()

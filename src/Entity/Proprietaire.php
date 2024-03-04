@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 
 #[ORM\Entity(repositoryClass: ProprietaireRepository::class)]
@@ -22,12 +23,6 @@ class Proprietaire
     #[ORM\Column]
     private ?bool $estSuperHote = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nombreNotes = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $moyenneNotes = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $IBAN = null;
 
@@ -38,11 +33,23 @@ class Proprietaire
     #[ORM\OneToMany(targetEntity: Moto::class, mappedBy: 'proprietaire')]
     private Collection $motos;
 
-    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
-    private Collection $commentaires;
+    // #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
+    // private Collection $commentaires;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    private ?float $average = null;
+
+    private ?int $nombreMotos = null;
+    private ?int $nombreReservations = null;
+    private ?int $nombreNotes = null;
+
+    private ?int $nombreUn = null;
+    private ?int $nombreDeux = null;
+    private ?int $nombreTrois = null;
+    private ?int $nombreQuatre = null;
+    private ?int $nombreCinq = null;
 
     public function __construct()
     {
@@ -67,29 +74,6 @@ class Proprietaire
         return $this;
     }
 
-    public function getNombreNotes(): ?int
-    {
-        return $this->nombreNotes;
-    }
-
-    public function setNombreNotes(?int $nombreNotes): static
-    {
-        $this->nombreNotes = $nombreNotes;
-
-        return $this;
-    }
-
-    public function getMoyenneNotes(): ?int
-    {
-        return $this->moyenneNotes;
-    }
-
-    public function setMoyenneNotes(?int $moyenneNotes): static
-    {
-        $this->moyenneNotes = $moyenneNotes;
-
-        return $this;
-    }
 
     public function getIBAN(): ?string
     {
@@ -123,6 +107,25 @@ class Proprietaire
         return $this->motos;
     }
 
+    public function getNombreMotos(): ?string
+    {
+        $motos = $this->motos;
+
+        $this->nombreMotos = count($motos);
+
+        return $this->nombreMotos;
+    }
+
+    public function getNombreReservations(): ?string
+    {
+        $nombreResa = $this->motos;
+        
+
+        return $this->nombreReservations;
+    }
+
+    
+
     public function addMoto(Moto $moto): static
     {
         if (!$this->motos->contains($moto)) {
@@ -148,31 +151,120 @@ class Proprietaire
     /**
      * @return Collection<int, Commentaire>
      */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
+    // public function getCommentaires(): Collection
+    // {
+    //     return $this->commentaires;
+    // }
 
-    public function addCommentaire(Commentaire $commentaire): static
+    // public function addCommentaire(Commentaire $commentaire): static
+    // {
+    //     if (!$this->commentaires->contains($commentaire)) {
+    //         $this->commentaires->add($commentaire);
+    //         $commentaire->setProprietaire($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeCommentaire(Commentaire $commentaire): static
+    // {
+    //     if ($this->commentaires->removeElement($commentaire)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($commentaire->getProprietaire() === $this) {
+    //             $commentaire->setProprietaire(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
+    public function getAverage(): ?string
     {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setProprietaire($this);
+        $commentaires = $this->commentaires;
+
+        if($commentaires->toArray() === []) {
+            $this->average = null;
+            return $this->average;
         }
+        $total = 0;
+        foreach ($commentaires as $commentaire){
+            $total += $commentaire->getNoteProprio();
+        }
+        $this->average = $total / count($commentaires);
 
-        return $this;
+        return $this->average;
     }
 
-    public function removeCommentaire(Commentaire $commentaire): static
+    public function getNombreNotes(): ?string
     {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getProprietaire() === $this) {
-                $commentaire->setProprietaire(null);
+        $commentaires = $this->commentaires;
+
+        $this->nombreNotes = count($commentaires);
+        return $this->nombreNotes;
+    }
+
+    public function getNombreUn() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 1){
+                $nombre++;
             }
+            $this->nombreUn = $nombre;
         }
+        return $this->nombreUn;
+    }
+    public function getNombreDeux() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 2){
+                $nombre++;
+            }
+            $this->nombreDeux = $nombre;
+        }
+        return $this->nombreDeux;
 
-        return $this;
+    }
+    public function getNombreTrois() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 3){
+                $nombre++;
+            }
+            $this->nombreTrois = $nombre;
+        }
+        return $this->nombreTrois;
+    }
+    public function getNombreQuatre() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 4){
+                $nombre++;
+            }
+            $this->nombreQuatre = $nombre;
+        }
+        return $this->nombreQuatre;
+
+    }
+    public function getNombreCinq() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 5){
+                $nombre++;
+            }
+            $this->nombreCinq = $nombre;
+        }
+        return $this->nombreCinq;
+
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
