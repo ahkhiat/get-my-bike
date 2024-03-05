@@ -29,8 +29,8 @@
         					</button>
  
 						<!-- Modal -->
-						<div class="modal fade bd-example-modal-lg" id="ficheMoto{{ moto.id }}" tabindex="-1" aria-labelledby="annModalLabel" aria-hidden="true">
-							<div class="modal-dialog modal-lg">
+						<div class="modal fade bd-example-modal-xl" id="ficheMoto{{ moto.id }}" tabindex="-1" aria-labelledby="annModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-xl">
 									<div class="modal-content">
 										{# <div class="modal-header">
 											{# <h5 class="modal-title" id="annModalLabel">Sélection du fichier à importer</h5> #}
@@ -45,34 +45,51 @@
 													<div class="card">
 
 													<div class="card-body p-4">
+
 														<div class="card-body p-1 border border-solid border-2 rounded d-flex flex-column">
 
-															<div class="rounded-top  d-flex flex-row" style="background-color: #f8f9fa; height:250px;">
-																<div class="ms-4 mt-2 d-flex flex-column" style="width: 400px;">
+															<div class="card w-50">
+																<div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
 																	<img src={{ '/images/moto/' ~ moto.imageName }}
 																		alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
 																		style="width: 400px; z-index: 1">
+																	
 																</div>
-																<div class="border border-solid border-2 rounded p-2 w-25 d-grid gap-2">
+
+																<div class="card-body">
+																	<h2>{{ moto.modele.libelle }}</h2>
+																	<p class="card-text small text-muted mb-0 ps-3">⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
+																</div>
+															</div>
+
+
+															<div class="rounded-top  d-flex flex-row justify-content-between" style="height:250px;">
+
+																<div class="ms-4 mt-2 d-flex flex-column" style="width: 400px;">
+																	
+																</div>
+
+																<div class="ms-4 mt-2 border border-solid border-2 rounded p-2 w-25 d-grid gap-2">
 																	<p class="mb-1 h3">{{ moto.prixjour }} €</p>
 																	<p class="small text-muted mb-0">/ par jour</p>
 																	<button type="button " class="btn btn-primary mt-2 ">Reserver</button>
 																</div>
+
 															</div>
-															<div class="p-4 text-black" style="background-color: #f8f9fa;">
+															
+															<div class="p-4 text-black">
 																<div class="d-flex justify-content-between text-center py-1">
 																	<div>
 																		<div class="ms-3" style="margin-top: 130px;">
-																	<h2>{{ moto.modele.libelle }}</h2>
-																</div>
-																		<p class="small text-muted mb-0 ps-3">⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
-
+																		</div>
 																	</div>
 															
 																</div>
 															</div>
 														</div>
+														
 													</div>
+
 													<div class="card-body p-4 text-black">
 														
 														<div class="mb-5">
@@ -161,3 +178,5 @@
 		{% endfor %}
 
 	{% endblock %}
+
+
