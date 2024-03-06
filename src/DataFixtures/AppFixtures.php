@@ -10,16 +10,17 @@ use App\Entity\User;
 use App\Entity\Proprietaire;
 use App\Entity\Commentaire;
 use App\Entity\Reservation;
-
-
-use Faker;
+use Faker\Factory;
 
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $faker = Faker\Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
+
+        // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
+        $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
 
         $user1 = new User;
         $user1->setEmail('ahkhiat@hotmail.com')
@@ -42,12 +43,11 @@ class AppFixtures extends Fixture
             $moto = new Moto;
             $modele = new Modele;
 
-            // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
-            $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
-            $randomKey = array_rand($cylindrees, 1); // renvoi un index
+            $randomKeyCyl = array_rand($cylindrees, 1); // renvoi un index
+
 
             $modele->setMarque($faker->lastName())
-                   ->setLibelle(ucfirst($faker->word() . " " . $cylindrees[$randomKey]))
+                   ->setLibelle(ucfirst($faker->word() . " " . $cylindrees[$randomKeyCyl]))
                    ->setType(ucfirst($faker->word()))
                    ->setPuissance(mt_rand(85, 200));
 
@@ -66,12 +66,14 @@ class AppFixtures extends Fixture
                  ->setNom($faker->lastName())
                  ->setPrenom($faker->firstName())
                  ->setDateNaissance($dateNaissance)
+                 ->setBio($faker->sentence())
                  ->setAdresse($faker->streetAddress())
                  ->setCodePostal($faker->postCode())
                  ->setVille($faker->city())
                  ->setTelephone($faker->phoneNumber())
                  ->setIsVerified($faker->boolean())
-                 ->setImageName('user_1144760.png');
+                 ->setImageName('user_1144760.png')
+                ;
                 //  ->setCreatedAtValue($faker->dateTimeBetween('-6 month', 'now')); // ne fonctionne pas
 
                 $users[] = $user;
@@ -79,7 +81,9 @@ class AppFixtures extends Fixture
 
                                 // méthode pour choix aléatoire d'idUser dans Proprio
             $proprio->setUser($users[mt_rand(0, count($users) - 1)]) 
-                    ->setEstSuperHote($faker->boolean());
+                    ->setEstSuperHote($faker->boolean())
+                    ->setIsVerified($faker->boolean());
+
                         
                 $proprios[] = $proprio;
                 $manager->persist($proprio);
@@ -97,7 +101,10 @@ class AppFixtures extends Fixture
             $randomKeyDesc = array_rand($descriptionsMoto, 1);
 
             $moto->setModele($modeles[mt_rand(0, count($modeles) - 1)])
+                  ->setCylindree($cylindrees[$randomKeyCyl])
                  ->setProprietaire($proprios[mt_rand(0, count($proprios) - 1)])
+                  ->setPoids($faker->numberBetween(150, 300))
+                 ->setPuissance($faker->numberBetween(80, 200))
                  ->setAnnee($faker->year())
                  ->setCouleur($faker->safeColorName())
                  ->setPrixJour($faker->numberBetween(80, 250))
@@ -105,6 +112,7 @@ class AppFixtures extends Fixture
                  ->setDescription($descriptionsMoto[$randomKeyDesc])
                  ->setBagagerie($faker->boolean())
                  ->setImageName($imagesMoto[$randomKey])
+                
                 ;
                  $motos[] = $moto;
                  $manager->persist($moto);

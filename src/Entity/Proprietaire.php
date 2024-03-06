@@ -51,6 +51,9 @@ class Proprietaire
     private ?int $nombreQuatre = null;
     private ?int $nombreCinq = null;
 
+    #[ORM\Column]
+    private ?bool $isVerified = null;
+
     public function __construct()
     {
         $this->motos = new ArrayCollection();
@@ -282,5 +285,17 @@ class Proprietaire
     public function setCreatedAtValue(): void
     {
         $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }

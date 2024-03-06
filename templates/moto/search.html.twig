@@ -101,9 +101,27 @@
 														</div>
 
 														<div class="mb-5 w-75">
-														<p class="lead fw-normal mb-1">Description du véhicule</p>
+															<p class="lead fw-normal mb-1">Description du véhicule</p>
 															<div class="p-4 border border-solid border-2 rounded" >
 																<p class="font-italic mb-1">{{ moto.description }}</p>
+															</div>
+														</div>
+
+														<div class="mb-5 w-75">
+															<p class="lead fw-normal mb-1">Caractéristiques techniques</p>
+															<div class="p-4 border border-solid  border-2 rounded d-flex justify-content-between" >
+																<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Cylindrée : {{ moto.cylindree }} cm3</strong></div>
+																<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Poids : {{ moto.poids }} kg</strong></div>
+																<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Puissance : {{ moto.puissance }} ch</strong></div>
+															</div>
+														</div>
+
+														<div class="mb-5 w-75">
+															<p class="lead fw-normal mb-1">Options et accessoires</p>
+															<div class="p-4 border border-solid  border-2 rounded d-flex justify-content-between" >
+																{# BOUCLER POUR LES OPTIONS
+																	<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Cylindrée : {{ moto.cylindree }} cm3</strong></div>
+																#}
 															</div>
 														</div>
 
@@ -116,10 +134,7 @@
 
 
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-											<button type="submit" class="btn btn-primary">Importer</button>
-										</div>
+			
 									</div>
 							</div>
 						</div>

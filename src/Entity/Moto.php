@@ -83,6 +83,19 @@ class Moto
     private ?int $nombreQuatre = null;
     private ?int $nombreCinq = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cylindree = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $poids = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $puissance = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $options = null;
+
+    
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -419,6 +432,56 @@ class Moto
 
         return $this;
     }
+
+    public function getCylindree(): ?string
+    {
+        return $this->cylindree;
+    }
+
+    public function setCylindree(string $cylindree): static
+    {
+        $this->cylindree = $cylindree;
+
+        return $this;
+    }
+
+    public function getPoids(): ?int
+    {
+        return $this->poids;
+    }
+
+    public function setPoids(int $poids): static
+    {
+        $this->poids = $poids;
+
+        return $this;
+    }
+
+    public function getPuissance(): ?int
+    {
+        return $this->puissance;
+    }
+
+    public function setPuissance(int $puissance): static
+    {
+        $this->puissance = $puissance;
+
+        return $this;
+    }
+
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    public function setOptions(string $options): static
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+   
 
 
 }
