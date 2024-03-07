@@ -30,7 +30,7 @@
 						
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								<button type="button" class="btn btn-warning btn-circle btn-xl">TL</button>
+								<button type="button" class="btn btn-warning btn-circle btn-xl">{{ (app.user.prenom|first)|upper }}{{ (app.user.nom|first)|upper }}</button>
 							</a>
 							<ul class="dropdown-menu dropdown-menu-end">
 								<li><a class="dropdown-item" href="/">Profil</a></li>

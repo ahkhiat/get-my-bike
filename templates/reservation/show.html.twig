@@ -11,6 +11,10 @@
                 <th>Id</th>
                 <td>{{ reservation.id }}</td>
             </tr>
+             <tr>
+                <th>Moto</th>
+                <td>{{ dump(reservation) }}</td>
+            </tr>
             <tr>
                 <th>DateDebut</th>
                 <td>{{ reservation.dateDebut ? reservation.dateDebut|date('Y-m-d H:i:s') : '' }}</td>

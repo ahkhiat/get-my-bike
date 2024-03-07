@@ -141,7 +141,7 @@ class AppFixtures extends Fixture
 
             $commentaire->setUser($users[mt_rand(0, count($users) - 1)])
                         ->setMoto($motos[mt_rand(0, count($motos) - 1)])
-                        // ->setReservation($reservations[mt_rand(0, count($reservations) - 1)])
+                        ->setReservation($reservations[mt_rand(0, count($reservations) - 1)])
                         // ->setCreatedAtValue()
                         ->setNoteMoto(mt_rand(1,5))
                         ->setNoteProprio(mt_rand(1,5))
