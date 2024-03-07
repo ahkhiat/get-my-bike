@@ -6,29 +6,43 @@
 {% block body %}
 
 	{% for moto in motos %}
-
-		<div class="card mb-3 w-50">
+	
+		<div class="card mb-3 col-12  col-sm-12 col-md-9 col-lg-6">
 			<div class="row no-gutters" >
-				<div class="col-md-5" >
-					<img src={{ '/images/moto/' ~ moto.imageName }} class="card-img" alt="...">
+				<div class="col-md-5 " >
+					<img src={{ '/images/moto/' ~ moto.imageName }} class="card-img-top img-fluid img-thumbnail" alt="..." style="height: 25vh;">
 				</div>
 				<div class="col-md-7">
 					<div class="card-body d-flex flex-column justify-content-between">
-						<h5 class="card-title">{{ moto.modele.libelle }}</h5>
+						<div class="d-flex flex-row justify-content-between">
+							<h5 class="card-title">{{ moto.modele.libelle }}</h5>
+							<button type="button" class="btn btn-outline-secondary stretched-link " data-bs-toggle="modal" data-bs-target="#ficheMoto{{ moto.id }}">
+								<i class="fa-solid fa-list"></i>
+							</button>
+						</div >
 						{# <p class="card-text">{{ moto.description }}</p> #}
-						{# <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> #}
-
-						<div class="card border-secondary mb-3 " style="max-width: 6rem;">
-							<div class="card-body text-dark">
-								<h5 class="card-title">{{ moto.prixjour }} €</h5>
-								<p class="card-text">par jour</p>
+						<div class=" d-flex">
+							<div class="d-flex flex-column  justify-content-around align-items-center">
+								<i class="fa-solid fa-star" style="color: orange;"></i>
+								<i class="fa-solid fa-location-dot"></i>
 							</div>
-            			</div>
-						    <button type="button" class="btn btn-outline-primary stretched-link" data-bs-toggle="modal" data-bs-target="#ficheMoto{{ moto.id }}">
-            					Fiche moto
-        					</button>
+							<div class="d-flex flex-column  justify-content-around ps-1">
+								<p class="card-text small text-muted mb-1 "> {{ moto.average|number_format(2, '.', ',') }}/5</p>
+								<p class="card-text small text-muted mb-0 "> {{ moto.proprietaire.user.ville }}</p>
+				
+							</div>
+							
+						</div>
+
+						<div class="card-body text-dark d-flex flex-column align-self-end justify-self-end">
+							<h4 class="card-title">{{ moto.prixjour }} €</h4>
+							<p class="card-text">par jour</p>
+						</div>
+						
  
 						<!-- Modal -->
+
+						{# {{dump(moto)}} #}
 						<div class="modal fade bd-example-modal-xl" id="ficheMoto{{ moto.id }}" tabindex="-1" aria-labelledby="annModalLabel" aria-hidden="true">
 							<div class="modal-dialog modal-xl">
 									<div class="modal-content">
@@ -59,7 +73,7 @@
 
 																	<div class="card-body">
 																		<h2>{{ moto.modele.libelle }}</h2>
-																		<p class="card-text small text-muted mb-0 ps-3">⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
+																		<p class="card-text small text-muted mb-0 ps-3"><i class="fa-solid fa-star" style="color: orange;"></i> {{ moto.average|number_format(2, '.', ',') }}/5</p>
 																	</div>
 																</div>
 															</div>
@@ -91,11 +105,12 @@
 															<div class="p-4 border border-solid border-2 rounded d-flex flex-row">
 																<div>
 																	<img src="{{ vich_uploader_asset(moto, 'imageFile') }}" alt="{{ moto.proprietaire.user.imageName }}"
-              class="rounded-circle img-fluid" style="width: 70px;">
+              															class="rounded-circle img-fluid" style="width: 70px;">
 																</div>
 																<div class="d-flex flex-column ms-3">
 																	<p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p>
-																	<p>⭐ {{ moto.average|number_format(2, '.', ',') }}/5</p>
+																	<p><i class="fa-solid fa-star" style="color: orange;"></i> {{ moto.average|number_format(2, '.', ',') }}/5</p>
+																	<p>{{ moto.nombrenotes }}</p>
 																</div>
 															</div>
 														</div>
@@ -125,6 +140,42 @@
 															</div>
 														</div>
 
+														<div class="mb-5 w-75 ">
+															<p class="lead fw-normal mb-1">Evaluations</p>
+															<div class="p-4 border border-solid  border-2 rounded d-flex flex-column justify-content-between" >
+																{# BOUCLER POUR LES OPTIONS
+																	<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Cylindrée : {{ moto.cylindree }} cm3</strong></div>
+																#}
+																{% for commentaire in moto.commentaires %}
+																	<div class="card border-0 ">
+																
+																		<div class="card-body">
+																		{# {{ dump(commentaire)}} #}
+																			{# <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ commentaire.user.imageName }}" #}
+
+																			<h5 class="card-title">{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</h5>
+																			<p class="card-text">{{ commentaire.textemoto }}</p>
+																			{# <p><i class="fa-solid fa-star" style="color: orange;"></i> {{ commentaire.notemoto }}/5</p> #}
+																				{% if commentaire.notemoto > 0 %}
+																					{% for i in range(1, commentaire.notemoto) %}
+																						<i class="fa-solid fa-star" style="color: orange;"></i>
+																					{% endfor %}
+																				{% endif %}
+																		</div>
+																	</div>
+																{% endfor %}
+															</div>
+														</div>
+
+														<div class="mb-5 w-75">
+															<p class="lead fw-normal mb-1">Disponibilités</p>
+															<div class="p-4 border border-solid  border-2 rounded d-flex justify-content-between" >
+																{# BOUCLER POUR LES OPTIONS
+																	<div class="p-3 border border-solid border-1 rounded border-dark"><strong>Cylindrée : {{ moto.cylindree }} cm3</strong></div>
+																#}
+															</div>
+														</div>
+
 													</div>
 													</div>
 												</div>
@@ -143,7 +194,8 @@
 				</div>
 			</div>
 		</div>
-			
+
+		
       
 
 
