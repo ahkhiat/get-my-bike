@@ -1,6 +1,6 @@
 
 body {
-    padding-top: 210px; 
+    padding-top: 80px; 
 }
 
 
@@ -20,5 +20,8 @@ body {
     object-fit: cover;
 }
 
+.home-image {
+    width: 100vw;
+}
 
 
