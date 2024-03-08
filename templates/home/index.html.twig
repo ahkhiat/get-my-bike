@@ -1,9 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-home.html.twig' %}
 
 {% block title %}Get my Bike{% endblock %}
 
 {% block body %}
 
-<img src="{{ asset('images/site/home/moto_home.png') }}" class="home-image" >
+    <img src="{{ asset('images/site/home/moto_home.png') }}" id="home-image">
+
+<div id="conteneur_slider">
+    <a href="{{ path('app_login') }}"><button type= "button" class="btn btn-light">Prenez la route</button></a>
+</div>
+
 
 {% endblock %}
