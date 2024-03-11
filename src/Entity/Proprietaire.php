@@ -122,20 +122,21 @@ class Proprietaire
 
 // NE MARCHE PAS 
 
-    // public function getNombreReservations(): ?string
-    // {
-    //     $motos = $this->motos;
-    //     $nombreReservations = 0;
+    public function getNombreReservations(): ?string
+    {
+        $motos = $this->motos;
+        $nombreReservations = 0;
 
-    //     foreach ($motos as $moto)
-    //     {
-    //         $reservations = $moto->reservations;
-    //         $nombreReservations += $reservations;
+        foreach ($motos as $moto)
+        {
+            $reservations = $moto->getReservations();
+            // $nombreReservations += $reservations;
+            $nombreReservations += count($reservations);
 
-    //     }
+        }
 
-    //     return $this->nombreReservations;
-    // }
+        return $nombreReservations;
+    }
 
 /**
      * Get the value of nombreCommentaires

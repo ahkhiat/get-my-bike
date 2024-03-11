@@ -18,8 +18,25 @@
                   style="width: 180px; border-radius: 10px;">
               </div>
               <div class="flex-grow-1 ms-3">
-                <h5 class="mb-1">{{ proprietaire.user.prenom }} {{ proprietaire.user.nom|first }}</h5>
-                <p class="mb-2 pb-1" style="color: #2b2a2a;">{{ proprietaire.user.getAge }} ans</p>
+                <h5 class="mb-1">{{ user.prenom }} {{ user.nom|first }}</h5>
+                <p class="mb-2 pb-1" style="color: #2b2a2a;">{{ user.getAge }} ans</p>
+                <div>
+                <p class="small text-muted mb-1">
+                {% if proprietaire.isverified == true %}
+                    <i class="fa-solid fa-circle-check" style="color: #41b491;"></i> 
+                {% else %}
+                    <i class="fa-regular fa-circle-xmark"></i>                 
+                {% endif %}
+                pièce d'indentité verifiée</p>
+                <p class="small text-muted mb-1">
+                  {% if proprietaire.isestsuperhote == true %}
+                    <i class="fa-solid fa-circle-check" style="color: #41b491;"></i>  
+                    {% else %}
+                    <i class="fa-regular fa-circle-xmark"></i>                
+                  {% endif %}
+
+                est super hote</p>
+                </div>
                 <div class="d-flex justify-content-start rounded-3 p-2 mb-2"
                   style="background-color: #efefef;">
                  

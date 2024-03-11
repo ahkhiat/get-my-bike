@@ -11,6 +11,7 @@ use App\Entity\Proprietaire;
 use App\Entity\Commentaire;
 use App\Entity\Reservation;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class AppFixtures extends Fixture
@@ -19,24 +20,12 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+       
         // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
         $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
 
-        $user1 = new User;
-        $user1->setEmail('ahkhiat@hotmail.com')
-                 ->setPassword('123456')
-                 ->setNom('Leung')
-                 ->setPrenom('Thierry')
-                 ->setDateNaissance($faker->dateTime())
-                 ->setAdresse($faker->streetAddress())
-                 ->setCodePostal($faker->postCode())
-                 ->setVille($faker->city())
-                 ->setTelephone($faker->phoneNumber())
-                 ->setIsVerified($faker->boolean())
-                 ->setImageName('user_1144760.png');
-        $manager->persist($user1);
 
-        for ($i=0; $i <= 50; $i++) { 
+        for ($i=0; $i <= 10; $i++) { 
             $user = new User;
 
             $proprio = new Proprietaire;
@@ -76,11 +65,12 @@ class AppFixtures extends Fixture
                 ;
                 //  ->setCreatedAtValue($faker->dateTimeBetween('-6 month', 'now')); // ne fonctionne pas
 
-                $users[] = $user;
-                $manager->persist($user);
+            $users[] = $user;    
+            $manager->persist($user);
+
 
                                 // méthode pour choix aléatoire d'idUser dans Proprio
-            $proprio->setUser($users[mt_rand(0, count($users) - 1)]) 
+            $proprio->setUser($user) 
                     ->setEstSuperHote($faker->boolean())
                     ->setIsVerified($faker->boolean());
 
