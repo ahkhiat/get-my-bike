@@ -33,8 +33,8 @@ class Proprietaire
     #[ORM\OneToMany(targetEntity: Moto::class, mappedBy: 'proprietaire')]
     private Collection $motos;
 
-    // #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
-    // private Collection $commentaires;
+    #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
+    private Collection $commentaires;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -44,6 +44,7 @@ class Proprietaire
     private ?int $nombreMotos = null;
     private ?int $nombreReservations = null;
     private ?int $nombreNotes = null;
+    private ?int $nombreCommentaires = null;
 
     private ?int $nombreUn = null;
     private ?int $nombreDeux = null;
@@ -119,12 +120,33 @@ class Proprietaire
         return $this->nombreMotos;
     }
 
-    public function getNombreReservations(): ?string
-    {
-        $nombreResa = $this->motos;
-        
+// NE MARCHE PAS 
 
-        return $this->nombreReservations;
+    // public function getNombreReservations(): ?string
+    // {
+    //     $motos = $this->motos;
+    //     $nombreReservations = 0;
+
+    //     foreach ($motos as $moto)
+    //     {
+    //         $reservations = $moto->reservations;
+    //         $nombreReservations += $reservations;
+
+    //     }
+
+    //     return $this->nombreReservations;
+    // }
+
+/**
+     * Get the value of nombreCommentaires
+     */ 
+    public function getNombreCommentaires()
+    {
+        $commentaires = $this->commentaires;
+
+        $this->nombreCommentaires = count($commentaires);
+
+        return $this->nombreCommentaires;
     }
 
     
@@ -154,10 +176,10 @@ class Proprietaire
     /**
      * @return Collection<int, Commentaire>
      */
-    // public function getCommentaires(): Collection
-    // {
-    //     return $this->commentaires;
-    // }
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
 
     // public function addCommentaire(Commentaire $commentaire): static
     // {
@@ -298,4 +320,6 @@ class Proprietaire
 
         return $this;
     }
+
+    
 }

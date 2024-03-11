@@ -87,6 +87,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateNaissance = null;
 
+    private ?int $age = null;
+    
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $bio = null;
 
@@ -413,4 +416,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
+    /**
+     * Get the value of age
+     */ 
+    // public function getAge()
+    // {
+    //     $dob = $this->getDateNaissance();
+    //     $year = (date('Y') - date('Y', strtotime($dob)));
+
+    //     return $year;
+    // }*
+
+    public function getAge()
+    {
+        $dob = $this->getDateNaissance();
+
+        if ($dob instanceof \DateTimeInterface) {
+            $now = new \DateTime();
+            $diff = $now->diff($dob);
+            return $diff->y;
+        } else {
+            return null; 
+        }
+    }
+
+   
 }

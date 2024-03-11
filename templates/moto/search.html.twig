@@ -113,7 +113,7 @@
               															class="rounded-circle img-fluid" style="width: 70px;">
 																</div>
 																<div class="d-flex flex-column ms-3">
-																	<a href="{{ path('app_user_show', {'id': moto.proprietaire.user.id}) }}"><p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p></a>
+																	<a href="{{ path('app_proprietaire_show_public', {'id': moto.proprietaire.user.id}) }}"><p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p></a>
 																	<p><i class="fa-solid fa-star" style="color: orange;"></i> {{ dump(moto) }}/5 </p>
 																	<p></p>
 																</div>
@@ -158,7 +158,9 @@
 																		{{ dump(commentaire)}}
 																			{# <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ commentaire.user.imageName }}" #}
 
-																			<h5 class="card-title">{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</h5>
+																			<a href="{{ path('app_user_show_public', {'id': commentaire.user.id}) }}">
+																				<h5 class="card-title">{{ commentaire.user.prenom }} {{ commentaire.user.nom }}</h5>
+																			</a>
 																			<p class="card-text">{{ commentaire.textemoto }}</p>
 																			{# <p><i class="fa-solid fa-star" style="color: orange;"></i> {{ commentaire.notemoto }}/5</p> #}
 																				{% if commentaire.notemoto > 0 %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Proprietaire;
 use App\Entity\Moto;
+use App\Entity\User;
 use App\Form\ProprietaireType;
 use App\Repository\ProprietaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -49,6 +50,15 @@ class ProprietaireController extends AbstractController
         return $this->render('proprietaire/show.html.twig', [
             'proprietaire' => $proprietaire,
             'moto' => $moto,
+        ]);
+    }
+
+    #[Route('/public/{id}', name: 'app_proprietaire_show_public', methods: ['GET'])]
+    public function show_p(User $user, Proprietaire $proprietaire): Response
+    {
+        return $this->render('proprietaire/show_p.html.twig', [
+            'user' => $user,
+            'proprietaire' => $proprietaire,
         ]);
     }
 
