@@ -36,6 +36,9 @@ class Proprietaire
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
     private Collection $commentaires;
 
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'proprietaire')]
+    private Collection $reservations;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -122,20 +125,37 @@ class Proprietaire
 
 // NE MARCHE PAS 
 
+    // public function getNombreReservations(): ?string
+    // {
+    //     $motos = $this->motos;
+    //     $nombreReservations = 0;
+
+    //     foreach ($motos as $moto)
+    //     {
+    //         $reservations = $moto->getReservations();
+    //         // $nombreReservations += $reservations;
+    //         $nombreReservations += count($reservations);
+
+    //     }
+
+    //     return $nombreReservations;
+    // }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
     public function getNombreReservations(): ?string
     {
-        $motos = $this->motos;
-        $nombreReservations = 0;
+        $reservations = $this->reservations;
 
-        foreach ($motos as $moto)
-        {
-            $reservations = $moto->getReservations();
-            // $nombreReservations += $reservations;
-            $nombreReservations += count($reservations);
+        $this->nombreReservations = count($reservations);
 
-        }
-
-        return $nombreReservations;
+        return $this->nombreReservations;
     }
 
 /**
