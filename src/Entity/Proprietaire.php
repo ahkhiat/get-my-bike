@@ -123,23 +123,20 @@ class Proprietaire
         return $this->nombreMotos;
     }
 
-// NE MARCHE PAS 
 
-    // public function getNombreReservations(): ?string
-    // {
-    //     $motos = $this->motos;
-    //     $nombreReservations = 0;
+    public function getNombreReservations(): ?string
+    {
+        $motos = $this->motos;
+        $nombreReservations = 0;
 
-    //     foreach ($motos as $moto)
-    //     {
-    //         $reservations = $moto->getReservations();
-    //         // $nombreReservations += $reservations;
-    //         $nombreReservations += count($reservations);
-
-    //     }
-
-    //     return $nombreReservations;
-    // }
+        foreach ($motos as $moto)
+        {
+            $reservations = $moto->getReservations();
+            // $nombreReservations += $reservations;
+            $nombreReservations += count($reservations);
+        }
+        return $nombreReservations;
+    }
 
     /**
      * @return Collection<int, Reservation>
@@ -149,27 +146,51 @@ class Proprietaire
         return $this->reservations;
     }
 
-    public function getNombreReservations(): ?string
-    {
-        $reservations = $this->reservations;
 
-        $this->nombreReservations = count($reservations);
 
-        return $this->nombreReservations;
-    }
-
-/**
+/** Ne marche pas encore
+ * 
      * Get the value of nombreCommentaires
      */ 
-    public function getNombreCommentaires()
+    public function getNombreCommentaires(): ?string
     {
-        $commentaires = $this->commentaires;
+        $motos = $this->motos;
+        $nombreCommentaires = 0;
 
-        $this->nombreCommentaires = count($commentaires);
-
-        return $this->nombreCommentaires;
+        foreach ($motos as $moto)
+        {
+            $commentaires = $moto->getCommentaires();
+            // $nombreReservations += $reservations;
+            $nombreCommentaires += count($commentaires);
+        }
+        return $nombreCommentaires;
     }
+// ---------------Cela me renvoie le nombre de commentaires qu'a reçu la moto, et non le proprietaire
+    
+    public function getAverage(): ?string
+        {
+            $motos = $this->motos;
+            $total = 0;
+            $nombreCommentaires = 0;
 
+            foreach ($motos as $moto)
+            {
+                $commentaires = $moto->getCommentaires();
+                foreach ($commentaires as $commentaire)
+                {
+                    $total += $commentaire->getNoteProprio();
+                    $nombreCommentaires++;
+                }
+            }
+            if ($nombreCommentaires === 0) {
+                return null; 
+            }
+            
+            $this->average = $total / $nombreCommentaires;
+
+            return $this->average;
+        }
+        // -------------------ne marche pas
     
 
     public function addMoto(Moto $moto): static
@@ -224,30 +245,15 @@ class Proprietaire
     //     return $this;
     // }
 
-    public function getAverage(): ?string
-    {
-        $commentaires = $this->commentaires;
+    
 
-        if($commentaires->toArray() === []) {
-            $this->average = null;
-            return $this->average;
-        }
-        $total = 0;
-        foreach ($commentaires as $commentaire){
-            $total += $commentaire->getNoteProprio();
-        }
-        $this->average = $total / count($commentaires);
+    // public function getNombreNotes(): ?string
+    // {
+    //     $commentaires = $this->commentaires;
 
-        return $this->average;
-    }
-
-    public function getNombreNotes(): ?string
-    {
-        $commentaires = $this->commentaires;
-
-        $this->nombreNotes = count($commentaires);
-        return $this->nombreNotes;
-    }
+    //     $this->nombreNotes = count($commentaires);
+    //     return $this->nombreNotes;
+    // }
 
     public function getNombreUn() : ?string
     {

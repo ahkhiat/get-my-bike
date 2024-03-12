@@ -114,7 +114,7 @@
 																</div>
 																<div class="d-flex flex-column ms-3">
 																	<a href="{{ path('app_proprietaire_show_public', {'id': moto.proprietaire.user.id}) }}"><p class="font-italic mb-1 h5">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom|first }}.</p></a>
-																	<p><i class="fa-solid fa-star" style="color: orange;"></i> {{ dump(moto.proprietaire) }}/5 </p>
+																	{# <p><i class="fa-solid fa-star" style="color: orange;"></i> {{ dump(moto.proprietaire) }}/5 </p> #}
 																	<p></p>
 																</div>
 															</div>
@@ -155,7 +155,7 @@
 																	<div class="card border-0 ">
 																
 																		<div class="card-body">
-																		{{ dump(commentaire)}}
+																		{# {{ dump(commentaire)}} #}
 																			{# <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ commentaire.user.imageName }}" #}
 
 																			<a href="{{ path('app_user_show_public', {'id': commentaire.user.id}) }}">

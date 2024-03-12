@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-home.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
@@ -7,17 +7,50 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    <div class="d-flex ">
+        <div class="w-50 my-auto " name="colonne gauche" id="conteneur_login">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            {{ form_errors(registrationForm) }}
+
+            <h1 class="h3 mb-3 font-weight-normal text-center">S'envoler pour de nouveaux horizons</h1>
+
+            {{ form_start(registrationForm) }}
+
+            <div class="w-75 mx-auto">
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword, {
+                            label: 'Password'
+                        }) }}
+            
+            <div class="row">
+                <div class="col">{{ form_row(registrationForm.nom) }}</div>
+                <div class="col">{{ form_row(registrationForm.prenom) }}</div>
+            </div>
+            {{ form_row(registrationForm.adresse) }}
+            <div class="row">
+                <div class="col">{{ form_row(registrationForm.codepostal) }}</div>
+                <div class="col">{{ form_row(registrationForm.ville) }}</div>
+            </div>
+            <div class="row">
+                <div class="col">{{ form_row(registrationForm.telephone) }}</div>
+                <div class="col">{{ form_row(registrationForm.datenaissance) }}</div>
+            </div>
+            
+            <a href="/terms" target="_blank">{{ form_row(registrationForm.agreeTerms) }}</a>
+
+            <button type="submit" class="btn btn-lg btn-primary mt-3">S'enregistrer</button>
+            {{ form_end(registrationForm) }}
+
+            </div>
+        </div>
+
+        <img src="{{ asset('images/site/home/home4.png') }}" id="login-image">
+
+    </div>
+
+
+
+    
 {% endblock %}

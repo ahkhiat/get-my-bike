@@ -83,4 +83,10 @@ class RegistrationController extends AbstractController
 
         return $this->redirectToRoute('app_register');
     }
+
+    #[Route('/terms', name: 'app_terms')]
+    public function showTerms() : Response
+    {
+        return $this->render('registration/terms.html.twig');
+    }
 }

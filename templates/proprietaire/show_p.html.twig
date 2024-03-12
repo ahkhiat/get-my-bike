@@ -5,7 +5,7 @@
 {% block body %}
 
 {# <section class="vh-100" style="background-color: #9de2ff;"> #}
- {{ dump(proprietaire) }}
+ {{ dump(proprietaire.user) }}
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-md-9 col-lg-7 col-xl-5">
@@ -21,6 +21,7 @@
                 <h5 class="mb-1">{{ user.prenom }} {{ user.nom|first }}</h5>
                 <p class="mb-2 pb-1" style="color: #2b2a2a;">{{ user.getAge }} ans</p>
                 <div>
+                {# <div>{{ proprietaire.average|number_format(2, '.', ',')  }}</div> #}
                 <p class="small text-muted mb-1">
                 {% if proprietaire.isverified == true %}
                     <i class="fa-solid fa-circle-check" style="color: #41b491;"></i> 

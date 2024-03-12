@@ -88,6 +88,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $dateNaissance = null;
 
     private ?int $age = null;
+    private ?int $nombreReservations = null;
+
     
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -293,6 +295,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    public function getNombreReservations(): ?string
+    {
+      // -----   Ne marche pas, à faire --------
     }
 
     public function removeReservation(Reservation $reservation): static

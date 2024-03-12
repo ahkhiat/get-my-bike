@@ -67,7 +67,10 @@
               class="rounded-circle img-fluid" style="width: 150px;">
                 
             <h5 class="my-3">{{ user.prenom }} {{ user.nom }}</h5>
-            <p class="text-muted mb-1">{{ user.roles ? user.roles|json_encode : '' }}</p>
+            <p class="text-muted mb-1">{% if 'ROLE_ADMIN' in user.getroles() %}
+                                        Administrateur                                        
+                                        {% endif %}
+                                        </p>
             <p class="text-muted mb-4">{{ user.ville }}</p>
           </div>
         </div>
@@ -76,16 +79,13 @@
             <ul class="list-group list-group-flush rounded-3">
               
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="bi bi-github" style="color: #333333;"></i>
-                <p class="mb-0"><a href="http://www.github.com/<?= $utilisateur[0]->github ?>" target="_blank" style="text-decoration : none; color : inherit"><?= $utilisateur[0]->github ?></a></p>
+                Membre depuis le : <p class="text-muted mb-0">{{ user.createdAt|date('d-m-Y') }}</p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="bi bi-instagram fa-lg" style="color: #ac2bac;"></i>
-                <p class="mb-0"><a href="http://www.instagram.com/<?= $utilisateur[0]->insta ?>" target="_blank" style="text-decoration : none; color : inherit"><?= $utilisateur[0]->insta ?></a></p>
+                {# <p class="mb-0"><a href="" target="_blank" style="text-decoration : none; color : inherit">{{ user.nombreReservations }}</a></p> #}
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <i class="bi bi-twitter-x fa-lg" style="color: #55acee;"></i>
-                <p class="mb-0"><a href="http://www.twitter.com/<?= $utilisateur[0]->twitter ?>" target="_blank" style="text-decoration : none; color : inherit"><?= $utilisateur[0]->twitter ?></a></p>
+                <p class="mb-0"><a href="" target="_blank" style="text-decoration : none; color : inherit"></a></p>
               </li>
               
             </ul>
@@ -157,6 +157,7 @@
                 <p class="text-muted mb-0">{{ user.adresse }} {{ user.codepostal }} {{ user.ville }}</p>
               </div>
             </div>
+            
           </div>
         </div>
 
