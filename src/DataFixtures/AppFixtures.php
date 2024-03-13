@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Entity\Proprietaire;
 use App\Entity\Commentaire;
 use App\Entity\Reservation;
+use App\Entity\Marque;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -30,18 +31,17 @@ class AppFixtures extends Fixture
 
             $proprio = new Proprietaire;
             $moto = new Moto;
+            $marque = new Marque;
             $modele = new Modele;
 
+            $marquesMoto = array('Yamaha', 'Ducati', 'Honda', 'Suzuki', 'Kawazaki', 'Triumph', 'Husqvarna', 'Harley-Davidson', 'Motoguzzi', 'Royal Enfield');
+
+            
+            $marque->setLibelle($marquesMoto[mt_rand(0, count($marquesMoto) - 1)]);
+            $manager->persist($marque);
+
+
             $randomKeyCyl = array_rand($cylindrees, 1); // renvoi un index
-
-
-            $modele->setMarque($faker->lastName())
-                   ->setLibelle(ucfirst($faker->word() . " " . $cylindrees[$randomKeyCyl]))
-                   ->setType(ucfirst($faker->word()))
-                   ->setPuissance(mt_rand(85, 200));
-
-                $modeles[] = $modele;
-                $manager->persist($modele);
 
             // Intervalle choisi pour les dates de naissances
             $dateDebut = '-60 years'; 
@@ -81,6 +81,7 @@ class AppFixtures extends Fixture
             $imagesMoto = array('moto1.jpg', 'moto2.jpg', 'moto3.jpg', 'moto4.jpg', 'moto5.jpg', 'moto6.jpg', 'moto7.jpg',
                                 'moto8.jpg', 'moto9.jpg', 'moto10.jpg', 'moto11.jpg', 'moto12.jpg');
             $randomKey = array_rand($imagesMoto, 1);
+            $typesMoto = array('Roadster', 'Sportive', 'GT', 'Trail', 'Enduro', 'Supermotard', 'Custom');
 
             $descriptionsMoto = array('Moto récente disponible 7/7j 24/24h. Prise en compte et restitution de la voiture sur les places en Autopartage réservées. Etape obligatoire : validez votre profil auprès de GetAround avec des originaux (les copies sont refusées et vous bloquez votre plafond de CB). Pour accéder à la voiture : suivez les instructions sur l\'appli afin de trouver la voiture et la déverrouiller.',
                                       'Bonjour, je mets a disposition mon véhicule qui est très bien entretenu. La selle est en cuir de couleur crème. Vous pouvez rapidement recuperer la moto à la sortie du métro Saint Barnabé. Je vous attends avec grand plaisir. Bonne journée',
@@ -90,10 +91,9 @@ class AppFixtures extends Fixture
 
             $randomKeyDesc = array_rand($descriptionsMoto, 1);
 
-            $moto->setModele($modeles[mt_rand(0, count($modeles) - 1)])
-                  ->setCylindree($cylindrees[$randomKeyCyl])
+            $moto->setCylindree($cylindrees[$randomKeyCyl])
                  ->setProprietaire($proprios[mt_rand(0, count($proprios) - 1)])
-                  ->setPoids($faker->numberBetween(150, 300))
+                 ->setPoids($faker->numberBetween(150, 300))
                  ->setPuissance($faker->numberBetween(80, 200))
                  ->setAnnee($faker->year())
                  ->setCouleur($faker->safeColorName())
@@ -102,6 +102,7 @@ class AppFixtures extends Fixture
                  ->setDescription($descriptionsMoto[$randomKeyDesc])
                  ->setBagagerie($faker->boolean())
                  ->setImageName($imagesMoto[$randomKey])
+                 
                 
                 ;
                  $motos[] = $moto;

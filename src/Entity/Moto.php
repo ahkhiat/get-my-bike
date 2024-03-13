@@ -33,10 +33,6 @@ class Moto
     #[ORM\Column]
     private ?bool $dispo = false;
 
-    #[ORM\ManyToOne(inversedBy: 'motos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Modele $modele = null;
-
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'moto')]
     private Collection $reservations;
 
@@ -94,6 +90,9 @@ class Moto
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $options = null;
+
+    #[ORM\ManyToOne(inversedBy: 'motos')]
+    private ?marque $marque = null;
 
     
     public function __construct()
@@ -155,18 +154,6 @@ class Moto
         return $this;
     }
 
-    
-    public function getModele(): ?Modele
-    {
-        return $this->modele;
-    }
-
-    public function setModele(?Modele $modele): static
-    {
-        $this->modele = $modele;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Reservation>
@@ -481,7 +468,18 @@ class Moto
         return $this;
     }
 
+    public function getMarque(): ?marque
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?marque $marque): static
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    
    
-
-
 }

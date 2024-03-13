@@ -30,6 +30,14 @@ class MotoController extends AbstractController
         ]);
     }
 
+    #[Route('/public/{id}', name: 'app_moto_fiche', methods: ['GET'])]
+    public function ficheMoto(Moto $moto): Response
+    {
+        return $this->render('moto/fiche_moto.html.twig', [
+            'moto' => $moto,
+        ]);
+    }
+
     
 
     #[Route('/new', name: 'app_moto_new', methods: ['GET', 'POST'])]

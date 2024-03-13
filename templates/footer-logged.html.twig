@@ -1,7 +1,7 @@
 <div class="row">
 
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h6 class="text-uppercase">Livres</h6>
+          {# <h6 class="text-uppercase">Livres</h6> #}
           {# <ul class="list-unstyled mb-0">
             <li><a class="text-body text-decoration-none" href="/livres">Tous les livres</a></li>
             <li><a class="text-body text-decoration-none" href="/livres/livrespartitre">Par Titre</a></li>
@@ -11,7 +11,7 @@
         </div>
        
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h6 class="text-uppercase">Fournisseurs</h6>
+          {# <h6 class="text-uppercase">Fournisseurs</h6> #}
           {# <ul class="list-unstyled mb-0">
             <li><a class="text-body text-decoration-none" href="/fournisseurs">Tous les fournisseurs</a></li>
             <li><a class="text-body text-decoration-none" href="/fournisseurs/fournisseursparnom">Par nom</a></li>
@@ -22,7 +22,7 @@
 
 {% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h6 class="text-uppercase">Utilisateurs</h6>
+          {# <h6 class="text-uppercase">Utilisateurs</h6> #}
           {# <ul class="list-unstyled mb-0">
             <li><a class="text-body text-decoration-none" href="/utilisateur">Tous les utilisateurs</a></li>
           </ul> #}
@@ -30,7 +30,7 @@
 {% endif %}
         
         <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h6 class="text-uppercase">Commandes</h6>
+          {# <h6 class="text-uppercase">Commandes</h6> #}
           {# <ul class="list-unstyled mb-0">
             <li><a class="text-body text-decoration-none" href="/commandes">Toutes les commandes</a></li>
             <li><a class="text-body text-decoration-none" href="/commandes/commandespardate">Par date</a></li>
