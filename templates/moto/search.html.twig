@@ -15,7 +15,8 @@
 				<div class="col-md-7">
 					<div class="card-body d-flex flex-column justify-content-between">
 						<div class="d-flex flex-row justify-content-between">
-							<h5 class="card-title">{{ moto.marque }} {{ moto.modele }} {{ moto.cylindree }}</h5>
+							<h5 class="card-title"> {{moto.modele.libelle}} </h5>
+							
 							{# <button type="button" class="btn btn-outline-secondary stretched-link " data-bs-toggle="modal" data-bs-target="#ficheMoto{{ moto.id }}"> #}
 							<a href="{{ path('app_moto_fiche', {'id': moto.id}) }}">
 								<button type="button" class="btn btn-outline-secondary stretched-link " data-bs-toggle="modal" data-bs-target="#ficheMoto{{ moto.id }}">

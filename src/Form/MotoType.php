@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Modele;
+use App\Entity\Marque;
 use App\Entity\Moto;
 use App\Entity\Proprietaire;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,6 +21,10 @@ class MotoType extends AbstractType
             ->add('couleur')
             ->add('prixJour')
             ->add('dispo')
+//             ->add('marque', EntityType::class, [  //---- Ne marche pas
+//                 'class' => Marque::class,
+// 'choice_label' => 'libelle',
+//             ])
             ->add('modele', EntityType::class, [
                 'class' => Modele::class,
 'choice_label' => 'libelle',

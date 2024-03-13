@@ -17,7 +17,7 @@ class Modele
     private ?string $libelle = null;
 
     #[ORM\ManyToOne(inversedBy: 'modeles')]
-    private ?marque $marque = null;
+    private ?Marque $marque = null;
 
 
 
@@ -39,12 +39,12 @@ class Modele
         return $this;
     }
 
-    public function getMarque(): ?marque
+    public function getMarque(): ?Marque
     {
         return $this->marque;
     }
 
-    public function setMarque(?marque $marque): static
+    public function setMarque(?Marque $marque): static
     {
         $this->marque = $marque;
 

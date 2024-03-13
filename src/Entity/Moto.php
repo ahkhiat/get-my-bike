@@ -92,7 +92,7 @@ class Moto
     private ?string $options = null;
 
     #[ORM\ManyToOne(inversedBy: 'motos')]
-    private ?marque $marque = null;
+    private ?Modele $modele = null;
 
     
     public function __construct()
@@ -468,14 +468,14 @@ class Moto
         return $this;
     }
 
-    public function getMarque(): ?marque
+    public function getModele(): ?Modele
     {
-        return $this->marque;
+        return $this->modele;
     }
 
-    public function setMarque(?marque $marque): static
+    public function setModele(?Modele $modele): static
     {
-        $this->marque = $marque;
+        $this->modele = $modele;
 
         return $this;
     }

@@ -25,22 +25,28 @@ class AppFixtures extends Fixture
         // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
         $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
 
+        $marquesMoto = array('Yamaha', 'Triumph');
+        $marquesUtilisees = [];
 
-        for ($i=0; $i <= 10; $i++) { 
+        foreach ($marquesMoto as $marqueNom) {
+            do {
+                $marqueAleatoire = $marquesMoto[mt_rand(0, count($marquesMoto) - 1)];
+            } while (in_array($marqueAleatoire, $marquesUtilisees));
+        
+            $marquesUtilisees[] = $marqueAleatoire; 
+        
+            $marque = new Marque;
+            $marque->setLibelle($marqueAleatoire);
+            $marques[] = $marque;
+            $manager->persist($marque);
+        }
+
+        for ($i=0; $i <= 3; $i++) { 
             $user = new User;
 
             $proprio = new Proprietaire;
             $moto = new Moto;
-            $marque = new Marque;
-            $modele = new Modele;
-
-            $marquesMoto = array('Yamaha', 'Ducati', 'Honda', 'Suzuki', 'Kawazaki', 'Triumph', 'Husqvarna', 'Harley-Davidson', 'Motoguzzi', 'Royal Enfield');
-
             
-            $marque->setLibelle($marquesMoto[mt_rand(0, count($marquesMoto) - 1)]);
-            $manager->persist($marque);
-
-
             $randomKeyCyl = array_rand($cylindrees, 1); // renvoi un index
 
             // Intervalle choisi pour les dates de naissances
@@ -81,7 +87,6 @@ class AppFixtures extends Fixture
             $imagesMoto = array('moto1.jpg', 'moto2.jpg', 'moto3.jpg', 'moto4.jpg', 'moto5.jpg', 'moto6.jpg', 'moto7.jpg',
                                 'moto8.jpg', 'moto9.jpg', 'moto10.jpg', 'moto11.jpg', 'moto12.jpg');
             $randomKey = array_rand($imagesMoto, 1);
-            $typesMoto = array('Roadster', 'Sportive', 'GT', 'Trail', 'Enduro', 'Supermotard', 'Custom');
 
             $descriptionsMoto = array('Moto récente disponible 7/7j 24/24h. Prise en compte et restitution de la voiture sur les places en Autopartage réservées. Etape obligatoire : validez votre profil auprès de GetAround avec des originaux (les copies sont refusées et vous bloquez votre plafond de CB). Pour accéder à la voiture : suivez les instructions sur l\'appli afin de trouver la voiture et la déverrouiller.',
                                       'Bonjour, je mets a disposition mon véhicule qui est très bien entretenu. La selle est en cuir de couleur crème. Vous pouvez rapidement recuperer la moto à la sortie du métro Saint Barnabé. Je vous attends avec grand plaisir. Bonne journée',
