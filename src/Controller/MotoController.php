@@ -60,6 +60,26 @@ class MotoController extends AbstractController
         ]);
     }
 
+    #[Route('/private/new', name: 'app_moto_new_private', methods: ['GET', 'POST'])]
+    public function newPrivate(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $moto = new Moto();
+        $form = $this->createForm(MotoType::class, $moto);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($moto);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_moto_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('moto/new_moto_private.html.twig', [
+            'moto' => $moto,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_moto_show', methods: ['GET'])]
     public function show(Moto $moto): Response
     {

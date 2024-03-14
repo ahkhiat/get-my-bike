@@ -18,7 +18,7 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             // ->add('roles')
-            ->add('password')
+            // ->add('password')
             ->add('nom')
             ->add('prenom')
             ->add('datenaissance', BirthdayType::class, [
@@ -28,6 +28,7 @@ class UserType extends AbstractType
             ->add('codePostal')
             ->add('ville')
             ->add('telephone')
+            ->add('bio')
             ->add('imageFile', VichImageType::class,[
                 'required'=>false,  
             ])

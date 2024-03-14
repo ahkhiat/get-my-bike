@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,6 +13,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+// use Symfony\Component\Serializer\Serializer;
 
 
 
@@ -74,6 +76,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -372,6 +377,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
     
     public function setImageFile(?File $imageFile = null): void
     {
@@ -447,6 +464,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             return null; 
         }
     }
+
+    public function serialize() {
+
+        return serialize(array(
+        $this->id,
+        $this->email,
+        $this->password,
+        ));
+        
+        }
+        
+        public function unserialize($serialized) {
+        
+        list (
+        $this->id,
+        $this->email,
+        $this->password,
+        ) = unserialize($serialized);
+        }
 
    
 }

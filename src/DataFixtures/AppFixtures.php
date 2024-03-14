@@ -25,21 +25,53 @@ class AppFixtures extends Fixture
         // array pour choix aléatoire de cylindrée parmis des valeurs que j'ai défini
         $cylindrees = array('500', '600', '800', '900', '1000', '1200', '1300');
 
-        $marquesMoto = array('Yamaha', 'Triumph');
-        $marquesUtilisees = [];
+        // $marquesMoto = array('Yamaha', 'Triumph');
+        // $marquesUtilisees = [];
 
-        foreach ($marquesMoto as $marqueNom) {
-            do {
-                $marqueAleatoire = $marquesMoto[mt_rand(0, count($marquesMoto) - 1)];
-            } while (in_array($marqueAleatoire, $marquesUtilisees));
+        // foreach ($marquesMoto as $marqueNom) {
+        //     do {
+        //         $marqueAleatoire = $marquesMoto[mt_rand(0, count($marquesMoto) - 1)];
+        //     } while (in_array($marqueAleatoire, $marquesUtilisees));
         
-            $marquesUtilisees[] = $marqueAleatoire; 
+        //     $marquesUtilisees[] = $marqueAleatoire; 
         
-            $marque = new Marque;
-            $marque->setLibelle($marqueAleatoire);
-            $marques[] = $marque;
-            $manager->persist($marque);
-        }
+        //     $marque = new Marque;
+        //     $marque->setLibelle($marqueAleatoire);
+        //     $marques[] = $marque;
+        //     $manager->persist($marque);
+        // }
+        $marque1 = new Marque;
+        $marque1->setLibelle('Yamaha');
+
+        $marque2 = new Marque;
+        $marque2->setLibelle('Triump');
+
+        $manager->persist($marque1);
+        $manager->persist($marque2);
+
+        $modele1 = new Modele;
+        $modele1->setMarque($marque1)
+                ->setLibelle('Fazer 600');
+        $manager->persist($modele1);
+
+
+        $modele2 = new Modele;
+        $modele2->setMarque($marque1)
+                ->setLibelle('Fazer 1000');
+        $manager->persist($modele2);
+
+        $modele3 = new Modele;
+        $modele3->setMarque($marque2)
+                ->setLibelle('Tiger 800');
+        $manager->persist($modele3);
+
+        $modele4 = new Modele;
+        $modele4->setMarque($marque2)
+                ->setLibelle('Tiger 1200');
+        $manager->persist($modele4);
+
+        $manager->persist($modele1, $modele2, $modele3, $modele4);
+
 
         for ($i=0; $i <= 3; $i++) { 
             $user = new User;
