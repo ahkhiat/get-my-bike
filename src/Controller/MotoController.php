@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
 
 #[Route('/moto')]
 class MotoController extends AbstractController
@@ -25,16 +26,28 @@ class MotoController extends AbstractController
     #[Route('/card', name: 'app_moto_card', methods: ['GET'])]
     public function card(MotoRepository $motoRepository): Response
     {
+        $API_KEY = "AIzaSyCa9Lluxf1oc4p8fKr1oxtwK3gn40EUGMo";
+
         return $this->render('moto/search.html.twig', [
             'motos' => $motoRepository->findAll(),
+            'API_KEY' => $API_KEY,
+
         ]);
     }
 
     #[Route('/public/{id}', name: 'app_moto_fiche', methods: ['GET'])]
-    public function ficheMoto(Moto $moto): Response
-    {
+    public function ficheMoto(Moto $moto, User $user): Response
+    {   
+        if ($moto->getAdresseMoto() != null)
+        {
+            $adresseMoto = $moto->getAdresseMoto() . " " . $moto->getCodePostalMoto() . " " . $moto->getVilleMoto();
+        } else {
+            $adresseMoto = $user->getAdresse() . " " . $user->getCodePostal() . " " . $user->getVille();
+
+        }
         return $this->render('moto/fiche_moto.html.twig', [
             'moto' => $moto,
+            'adresseMoto' => $adresseMoto,
         ]);
     }
 
