@@ -3,7 +3,7 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    {# <h1>User</h1>
 
     <table class="table">
         <tbody>
@@ -52,7 +52,180 @@
 
     <a href="{{ path('app_user_index') }}">back to list</a>
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a> #}
 
-    {{ include('user/_delete_form.html.twig') }}
+
+
+{# <section style="background-color: #eee;"> #}
+<section>
+  <div class="container py-5">
+    
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="{{ user.imageName }}"
+              class="rounded-circle img-fluid" style="width: 150px;">
+                
+            <h5 class="my-3">{{ user.prenom }} {{ user.nom }}</h5>
+            <p class="text-muted mb-1">{% if 'ROLE_ADMIN' in user.getroles() %}
+                                        Administrateur                                        
+                                        {% endif %}
+                                        </p>
+            <p class="text-muted mb-4">{{ user.ville }}</p>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                Membre depuis le : <p class="text-muted mb-0">{{ user.createdAt|date('d-m-Y') }}</p>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                {# <p class="mb-0"><a href="" target="_blank" style="text-decoration : none; color : inherit">{{ user.nombreReservations }}</a></p> #}
+                Profil mis à jour le : <p class="text-muted mb-0">{% if user.updatedAt %}
+                                                                    {{ user.updatedAt|date('d-m-Y H:i', "Europe/Paris") }}
+                                                                  {% else %}
+                                                                    {{ user.createdAt|date('d-m-Y') }}
+                                                                  {% endif %}</p>
+              </li>
+            </ul>
+          </div>
+          <div class="d-flex justify-content-center mb-2">
+              <a href="{{ path('app_user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-outline-warning">Modifier</button></a>
+              {# {{ include('user/_delete_form.html.twig') }} #}
+        </div>
+        </div>
+
+        
+
+      </div>
+      
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Nom</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.nom }}</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Prénom</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.prenom }}</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.email }}</p>
+              </div>
+            </div>
+            
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Date de naissance</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.datenaissance|date('d-m-Y') }}</p>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Téléphone</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.telephone }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Addresse</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.adresse }} {{ user.codepostal }} {{ user.ville }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Bio</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.bio }} </p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        {# <div class="d-flex justify-content-center mb-2">
+              <a href="{{ path('app_user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
+              {{ include('user/_delete_form.html.twig') }}
+        </div> #}
+
+       {% if proprietaire and proprietaire.nombreMotos != 0 %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+                <p class="mb-4"><span class="font-italic me-1 fw-bold">
+                {% if proprietaire.nombreMotos == 1 %}
+                Ma moto :
+                {% else %}
+                Mes motos :
+                {% endif %}
+                </span></p>
+                  <div class="d-flex">
+                  {% for moto in proprietaire.motos  %}
+                  
+                  <div class="card ms-1 me-1" style="width: 18rem;">
+                    <img src={{ '/images/moto/' ~ moto.imageName }}
+                                                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                                    style="width: 400px; z-index: 1; ">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ moto.modele.marque.libelle }} {{ moto.modele.libelle }}</h5>
+                      <p class="card-text"><i class="fa-solid fa-star" style="color: orange;"></i> {{ moto.average|number_format(2, '.', ',') }}/5 ({{ moto.nombrenotes }})</p>
+                      <div class="d-flex justify-content-between">
+                        <a href="{{ path('app_moto_fiche', {'id': moto.id}) }}" class="btn btn-outline-warning btn-sm">Fiche moto</a>
+                        <a href="{{ path('app_moto_edit', {'id': moto.id}) }}" class="btn btn-outline-warning btn-sm"><i class="fa-regular fa-pen-to-square"></i></a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% endfor %}
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} 
+
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

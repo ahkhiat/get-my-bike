@@ -33,16 +33,6 @@ class Moto
     #[ORM\Column]
     private ?bool $dispo = false;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nombreNotes = null;
-
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2, nullable: true)]
-    private ?string $moyenneNotes = null;
-
-    #[ORM\ManyToOne(inversedBy: 'motos')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Modele $modele = null;
-
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'moto')]
     private Collection $reservations;
 
@@ -61,12 +51,50 @@ class Moto
      #[ORM\Column(nullable: true)]
      private ?string $imageName = null;
 
-     #[ORM\Column(type: Types::TEXT)]
+     #[ORM\Column(type: Types::TEXT, nullable: true)]
      private ?string $description = null;
+
+     #[ORM\Column]
+     private ?bool $bagagerie = null;
+
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $adresseMoto = null;
+
+     #[ORM\Column(length: 5, nullable: true)]
+     private ?string $codePostalMoto = null;
+
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $villeMoto = null;
 
     //  #[ORM\Column(nullable: true)]
     // private ?\DateTimeImmutable $updatedAt = null;
 
+    private ?float $average = null;
+
+    private ?int $nombreNotes = null;
+
+    private ?int $nombreUn = null;
+    private ?int $nombreDeux = null;
+    private ?int $nombreTrois = null;
+    private ?int $nombreQuatre = null;
+    private ?int $nombreCinq = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cylindree = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $poids = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $puissance = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $options = null;
+
+    #[ORM\ManyToOne(inversedBy: 'motos')]
+    private ?Modele $modele = null;
+
+    
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
@@ -126,41 +154,6 @@ class Moto
         return $this;
     }
 
-    public function getNombreNotes(): ?int
-    {
-        return $this->nombreNotes;
-    }
-
-    public function setNombreNotes(?int $nombreNotes): static
-    {
-        $this->nombreNotes = $nombreNotes;
-
-        return $this;
-    }
-
-    public function getMoyenneNotes(): ?string
-    {
-        return $this->moyenneNotes;
-    }
-
-    public function setMoyenneNotes(?string $moyenneNotes): static
-    {
-        $this->moyenneNotes = $moyenneNotes;
-
-        return $this;
-    }
-
-    public function getModele(): ?Modele
-    {
-        return $this->modele;
-    }
-
-    public function setModele(?Modele $modele): static
-    {
-        $this->modele = $modele;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Reservation>
@@ -234,6 +227,96 @@ class Moto
         return $this;
     }
 
+    public function getAverage(): ?string
+    {
+        $commentaires = $this->commentaires;
+
+        if($commentaires->toArray() === []) {
+            $this->average = null;
+            return $this->average;
+        }
+        $total = 0;
+        foreach ($commentaires as $commentaire){
+            $total += $commentaire->getNoteMoto();
+        }
+        $this->average = $total / count($commentaires);
+
+        return $this->average;
+    }
+
+    public function getNombreNotes(): ?string
+    {
+        $commentaires = $this->commentaires;
+
+        $this->nombreNotes = count($commentaires);
+        return $this->nombreNotes;
+    }
+
+    public function getNombreUn() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 1){
+                $nombre++;
+            }
+            $this->nombreUn = $nombre;
+        }
+        return $this->nombreUn;
+    }
+    public function getNombreDeux() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 2){
+                $nombre++;
+            }
+            $this->nombreDeux = $nombre;
+        }
+        return $this->nombreDeux;
+
+    }
+    public function getNombreTrois() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 3){
+                $nombre++;
+            }
+            $this->nombreTrois = $nombre;
+        }
+        return $this->nombreTrois;
+    }
+    public function getNombreQuatre() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 4){
+                $nombre++;
+            }
+            $this->nombreQuatre = $nombre;
+        }
+        return $this->nombreQuatre;
+
+    }
+    public function getNombreCinq() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteMoto() == 5){
+                $nombre++;
+            }
+            $this->nombreCinq = $nombre;
+        }
+        return $this->nombreCinq;
+
+    }
+
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -289,4 +372,114 @@ class Moto
         return $this;
     }
 
+    public function isBagagerie(): ?bool
+    {
+        return $this->bagagerie;
+    }
+
+    public function setBagagerie(bool $bagagerie): static
+    {
+        $this->bagagerie = $bagagerie;
+
+        return $this;
+    }
+
+    public function getAdresseMoto(): ?string
+    {
+        return $this->adresseMoto;
+    }
+
+    public function setAdresseMoto(?string $adresseMoto): static
+    {
+        $this->adresseMoto = $adresseMoto;
+
+        return $this;
+    }
+
+    public function getCodePostalMoto(): ?string
+    {
+        return $this->codePostalMoto;
+    }
+
+    public function setCodePostalMoto(?string $codePostalMoto): static
+    {
+        $this->codePostalMoto = $codePostalMoto;
+
+        return $this;
+    }
+
+    public function getVilleMoto(): ?string
+    {
+        return $this->villeMoto;
+    }
+
+    public function setVilleMoto(?string $villeMoto): static
+    {
+        $this->villeMoto = $villeMoto;
+
+        return $this;
+    }
+
+    public function getCylindree(): ?string
+    {
+        return $this->cylindree;
+    }
+
+    public function setCylindree(string $cylindree): static
+    {
+        $this->cylindree = $cylindree;
+
+        return $this;
+    }
+
+    public function getPoids(): ?int
+    {
+        return $this->poids;
+    }
+
+    public function setPoids(int $poids): static
+    {
+        $this->poids = $poids;
+
+        return $this;
+    }
+
+    public function getPuissance(): ?int
+    {
+        return $this->puissance;
+    }
+
+    public function setPuissance(int $puissance): static
+    {
+        $this->puissance = $puissance;
+
+        return $this;
+    }
+
+    public function getOptions(): ?string
+    {
+        return $this->options;
+    }
+
+    public function setOptions(string $options): static
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    public function getModele(): ?Modele
+    {
+        return $this->modele;
+    }
+
+    public function setModele(?Modele $modele): static
+    {
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    
+   
 }

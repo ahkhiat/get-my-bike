@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Proprietaire;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\ProprietaireRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,23 +55,41 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    public function show(User $user, ProprietaireRepository $proprietaireRepository): Response
     {
-        return $this->render('user/show.html.twig', [
+        $proprietaire = $proprietaireRepository->findOneBy(['user' => $user]);
+
+             return $this->render('user/show.html.twig', [
+            'user' => $user,
+            'proprietaire' => $proprietaire,
+        ]);
+    }
+
+    #[Route('/public/{id}', name: 'app_user_show_public', methods: ['GET'])]
+    public function show_p(User $user): Response
+    {
+        return $this->render('user/show_public.html.twig', [
             'user' => $user,
         ]);
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager, ProprietaireRepository $proprietaireRepository): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $user->setUpdatedAt(new DateTimeImmutable());
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            $proprietaire = $proprietaireRepository->findOneBy(['user' => $user]);
+
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+                'proprietaire' => $proprietaire,
+                
+            ]);
         }
 
         return $this->render('user/edit.html.twig', [

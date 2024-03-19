@@ -5,8 +5,15 @@ namespace App\Entity;
 use App\Repository\CommentaireRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentaireRepository::class)]
+// #[UniqueEntity(
+//     fields: ['user', 'reservation'],
+//     errorPath: 'user',
+//     message: 'Cet utilisateur a dejà noté cette reservation'
+// )]
 class Commentaire
 {
     #[ORM\Id]
@@ -14,14 +21,16 @@ class Commentaire
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2)]
-    private ?string $noteMoto = null;
+    #[ORM\Column(nullable: true)]
+    #[Assert\Positive]
+    #[Assert\LessThan(6)]
+    private ?int $noteMoto = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $texteMoto = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: 2, nullable: true)]
-    private ?string $noteProprio = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $noteProprio = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $texteProprio = null;
@@ -34,12 +43,21 @@ class Commentaire
     #[ORM\JoinColumn(nullable: false)]
     private ?Moto $moto = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+// J'ai enlevé cette proprieté (cascade: ['persist', 'remove']) pour remplacer par (inversedBy: 'commentaires')
+// Penser à remettre #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
+
     #[ORM\ManyToOne(inversedBy: 'commentaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Proprietaire $proprietaire = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?Reservation $Reservation = null;
+
+    // public function __construct()
+    // {
+    //     $this->createdAt = new \DateTimeImmutable();
+    // }
 
     public function getId(): ?int
     {
@@ -118,26 +136,32 @@ class Commentaire
         return $this;
     }
 
-    public function getProprietaire(): ?Proprietaire
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(?Proprietaire $proprietaire): static
-    {
-        $this->proprietaire = $proprietaire;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    // public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    // {
+    //     $this->createdAt = $createdAt;
+
+    //     return $this;
+    // }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->Reservation;
+    }
+
+    public function setReservation(?Reservation $Reservation): static
+    {
+        $this->Reservation = $Reservation;
 
         return $this;
     }

@@ -1,0 +1,56 @@
+
+body {
+    /* padding-top: 80px;  */
+    /* background-color: aqua; */
+}
+
+
+.btn-circle.btn-xl {
+    width: 40px;
+    height: 40px;
+    padding: 2px 8px;
+    border-radius: 60px;
+    font-size: 20px;
+    text-align: center;
+}
+	
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+#container-image {
+    width: 100vw;
+}
+
+#home-image {
+    display: block;
+    height: 100vh;
+    margin: auto;
+}
+
+#login-image {
+    display: block;
+    height: 100vh;
+    margin-left: auto;
+}
+
+#conteneur_slider{
+ 
+    position:absolute;
+    top: 60vh;
+    left: 60vw;
+
+    }
+
+/* #conteneur_login{
+
+    position:absolute;
+    top: 30vh;
+    left: 10vw;
+
+    } */
+
+

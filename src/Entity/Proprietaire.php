@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Console\Output\ConsoleSectionOutput;
 
 
 #[ORM\Entity(repositoryClass: ProprietaireRepository::class)]
@@ -22,12 +23,6 @@ class Proprietaire
     #[ORM\Column]
     private ?bool $estSuperHote = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nombreNotes = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $moyenneNotes = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $IBAN = null;
 
@@ -41,8 +36,27 @@ class Proprietaire
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'proprietaire')]
     private Collection $commentaires;
 
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'proprietaire')]
+    private Collection $reservations;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
+
+    private ?float $average = null;
+
+    private ?int $nombreMotos = null;
+    private ?int $nombreReservations = null;
+    private ?int $nombreNotes = null;
+    private ?int $nombreCommentaires = null;
+
+    private ?int $nombreUn = null;
+    private ?int $nombreDeux = null;
+    private ?int $nombreTrois = null;
+    private ?int $nombreQuatre = null;
+    private ?int $nombreCinq = null;
+
+    #[ORM\Column]
+    private ?bool $isVerified = null;
 
     public function __construct()
     {
@@ -67,29 +81,6 @@ class Proprietaire
         return $this;
     }
 
-    public function getNombreNotes(): ?int
-    {
-        return $this->nombreNotes;
-    }
-
-    public function setNombreNotes(?int $nombreNotes): static
-    {
-        $this->nombreNotes = $nombreNotes;
-
-        return $this;
-    }
-
-    public function getMoyenneNotes(): ?int
-    {
-        return $this->moyenneNotes;
-    }
-
-    public function setMoyenneNotes(?int $moyenneNotes): static
-    {
-        $this->moyenneNotes = $moyenneNotes;
-
-        return $this;
-    }
 
     public function getIBAN(): ?string
     {
@@ -123,6 +114,85 @@ class Proprietaire
         return $this->motos;
     }
 
+    public function getNombreMotos(): ?string
+    {
+        $motos = $this->motos;
+
+        $this->nombreMotos = count($motos);
+
+        return $this->nombreMotos;
+    }
+
+
+    public function getNombreReservations(): ?string
+    {
+        $motos = $this->motos;
+        $nombreReservations = 0;
+
+        foreach ($motos as $moto)
+        {
+            $reservations = $moto->getReservations();
+            // $nombreReservations += $reservations;
+            $nombreReservations += count($reservations);
+        }
+        return $nombreReservations;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+
+
+/** Ne marche pas encore
+ * 
+     * Get the value of nombreCommentaires
+     */ 
+    public function getNombreCommentaires(): ?string
+    {
+        $motos = $this->motos;
+        $nombreCommentaires = 0;
+
+        foreach ($motos as $moto)
+        {
+            $commentaires = $moto->getCommentaires();
+            // $nombreReservations += $reservations;
+            $nombreCommentaires += count($commentaires);
+        }
+        return $nombreCommentaires;
+    }
+// ---------------Cela me renvoie le nombre de commentaires qu'a reçu la moto, et non le proprietaire
+    
+    public function getAverage(): ?string
+        {
+            $motos = $this->motos;
+            $total = 0;
+            $nombreCommentaires = 0;
+
+            foreach ($motos as $moto)
+            {
+                $commentaires = $moto->getCommentaires();
+                foreach ($commentaires as $commentaire)
+                {
+                    $total += $commentaire->getNoteProprio();
+                    $nombreCommentaires++;
+                }
+            }
+            if ($nombreCommentaires === 0) {
+                return null; 
+            }
+            
+            $this->average = $total / $nombreCommentaires;
+
+            return $this->average;
+        }
+        // -------------------ne marche pas
+    
+
     public function addMoto(Moto $moto): static
     {
         if (!$this->motos->contains($moto)) {
@@ -153,26 +223,100 @@ class Proprietaire
         return $this->commentaires;
     }
 
-    public function addCommentaire(Commentaire $commentaire): static
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires->add($commentaire);
-            $commentaire->setProprietaire($this);
-        }
+    // public function addCommentaire(Commentaire $commentaire): static
+    // {
+    //     if (!$this->commentaires->contains($commentaire)) {
+    //         $this->commentaires->add($commentaire);
+    //         $commentaire->setProprietaire($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeCommentaire(Commentaire $commentaire): static
+    // public function removeCommentaire(Commentaire $commentaire): static
+    // {
+    //     if ($this->commentaires->removeElement($commentaire)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($commentaire->getProprietaire() === $this) {
+    //             $commentaire->setProprietaire(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
+    
+
+    // public function getNombreNotes(): ?string
+    // {
+    //     $commentaires = $this->commentaires;
+
+    //     $this->nombreNotes = count($commentaires);
+    //     return $this->nombreNotes;
+    // }
+
+    public function getNombreUn() : ?string
     {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getProprietaire() === $this) {
-                $commentaire->setProprietaire(null);
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 1){
+                $nombre++;
             }
+            $this->nombreUn = $nombre;
         }
+        return $this->nombreUn;
+    }
+    public function getNombreDeux() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 2){
+                $nombre++;
+            }
+            $this->nombreDeux = $nombre;
+        }
+        return $this->nombreDeux;
 
-        return $this;
+    }
+    public function getNombreTrois() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 3){
+                $nombre++;
+            }
+            $this->nombreTrois = $nombre;
+        }
+        return $this->nombreTrois;
+    }
+    public function getNombreQuatre() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 4){
+                $nombre++;
+            }
+            $this->nombreQuatre = $nombre;
+        }
+        return $this->nombreQuatre;
+
+    }
+    public function getNombreCinq() : ?string
+    {
+        $commentaires = $this->commentaires;
+        $nombre = 0;
+        foreach($commentaires as $commentaire){
+            if($commentaire->getNoteProprio() == 5){
+                $nombre++;
+            }
+            $this->nombreCinq = $nombre;
+        }
+        return $this->nombreCinq;
+
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
@@ -191,4 +335,18 @@ class Proprietaire
     {
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    
 }

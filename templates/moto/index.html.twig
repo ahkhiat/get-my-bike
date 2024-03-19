@@ -13,8 +13,6 @@
                 <th>Couleur</th>
                 <th>PrixJour</th>
                 <th>Dispo</th>
-                <th>NombreNotes</th>
-                <th>MoyenneNotes</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,8 +24,6 @@
                 <td>{{ moto.couleur }}</td>
                 <td>{{ moto.prixJour }}</td>
                 <td>{{ moto.dispo ? 'Yes' : 'No' }}</td>
-                <td>{{ moto.nombreNotes }}</td>
-                <td>{{ moto.moyenneNotes }}</td>
                 <td>
                     <a href="{{ path('app_moto_show', {'id': moto.id}) }}">show</a>
                     <a href="{{ path('app_moto_edit', {'id': moto.id}) }}">edit</a>

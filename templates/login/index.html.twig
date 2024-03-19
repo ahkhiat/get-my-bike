@@ -1,38 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-home.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Se connecter{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ 
-        error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-        You are logged in as {{ app.user.userIdentifier }}, <a 
-        href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+<div class="d-flex">
+    <div class="w-50 my-auto" name="colonne gauche" id="conteneur_login">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ 
+                error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            {% if app.user %}
+                <div class="mb-3">
+                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a 
+                href="/logout">Deconnexion</a>
+                </div>
+            {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal text-center">Se connecter</h1>
+            <h1 class="h3 mb-3 font-weight-normal text-center">Se connecter</h1>
 
-    <div class="w-50 mx-auto">
-
-        <label for="username">Email</label>
-        <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
-
-        <label for="password">Password</label>
-        <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
-        <input type="hidden" name="_target_path" value="/">
-
-        <p>Je n'ai pas de compte, je veux <a href="/register">m'inscrire</a></p>
-
-        <button class="btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
-
+            <div class="w-50 mx-auto">
+                <label for="username">Email</label>
+                <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+                <label for="password">Password</label>
+                <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                <input type="hidden" name="_target_path" value="/moto/card">
+                <p>Je n'ai pas de compte, je veux <a href="/register">m'inscrire</a></p>
+                <button class="btn btn-lg btn-primary mt-3" type="submit">Se connecter</button>
+            </div>
+        </form>
     </div>
 
-</form>
+    <img src="{{ asset('images/site/home/home4.png') }}" id="login-image">
+
+</div>
+
+
 
 {% endblock %}

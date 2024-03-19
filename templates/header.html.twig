@@ -1,53 +1,54 @@
-<header>
+	<nav class="navbar navbar-expand-lg bg-white fixed-top border-bottom">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/moto/card" id="get_my_bike"><img src="{{ asset('images/site/logo.png') }}" width="150"></a>
 
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Get my Bike</a>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					{% if app.user %}
+						{% include 'header-logged.html.twig' %}
+					{% endif %}
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+							{% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
+								<p>ADMIN</p>
+							{% endif %}
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+							{% if app.user and not 'ROLE_ADMIN' in app.user.getroles()%}
+								<p>USER</p>
+							{% endif %}
+						</a>
+					</li>
+				</ul>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
+				{% if app.user %}
+					{# <div class="mb-3"> #}
+					<ul class="navbar-nav me-5 mb-2 mb-lg-0">
+						
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								<button type="button" class="btn btn-warning btn-circle btn-xl">{{ (app.user.prenom|first)|upper }}{{ (app.user.nom|first)|upper }}</button>
+							</a>
+							<ul class="dropdown-menu dropdown-menu-end">
+								<li><a class="dropdown-item" href="{{ path('app_user_show', {'id': app.user.id}) }}">Profil</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/admin">Admin Dashboard</a></li>
+								<li><a class="dropdown-item" href="/logout">Logout</a></li>
 
-{% if app.user and 'ROLE_USER' in app.user.getroles()%}
-
-  {% include 'header-logged.html.twig' %}
-  
-{% endif %}
-        
-        
-      </ul>
-      
-    </div>
-  </div>
-{% if not app.user %}
-  <a href="/login">Login</a>
-{% endif %}
-
-{% if app.user and 'ROLE_ADMIN' in app.user.getroles()%}
-  <p>ADMIN</p>
-{% endif %}
-{% if app.user and 'ROLE_USER' in app.user.getroles()%}
-  <p>USER</p>
-{% endif %}
-
-  
-
-
-
-{% if app.user %}
-        {# <div class="mb-3"> #}
-       {{ app.user.userIdentifier }}
-        <br>
-        <a href="/logout">Logout</a>
-        {# </div> #}
-{% endif %}
-
-</nav>
+							</ul>
+						</li>
+					</ul>
+					{# </div> #}
+				{% endif %}
+				{% if not app.user %}
+					<a href="/login">Se connecter</a>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
 
 
 </header>

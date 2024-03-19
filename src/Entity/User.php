@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -12,6 +13,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+// use Symfony\Component\Serializer\Serializer;
 
 
 
@@ -75,6 +77,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
+    private ?DateTimeImmutable $updatedAt = null;
+
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
@@ -83,6 +88,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
  
     #[ORM\Column(nullable: true)]
      private ?string $imageName = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $dateNaissance = null;
+
+    private ?int $age = null;
+    private ?int $nombreReservations = null;
+
+    
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $bio = null;
 
     public function __construct()
     {
@@ -286,6 +302,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getNombreReservations(): ?string
+    {
+      // -----   Ne marche pas, à faire --------
+    }
+
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservations->removeElement($reservation)) {
@@ -356,6 +377,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
     
     public function setImageFile(?File $imageFile = null): void
     {
@@ -383,4 +416,73 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->imageName;
     }
 
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->dateNaissance;
+    }
+
+    public function setDateNaissance(\DateTimeInterface $dateNaissance): static
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of age
+     */ 
+    // public function getAge()
+    // {
+    //     $dob = $this->getDateNaissance();
+    //     $year = (date('Y') - date('Y', strtotime($dob)));
+
+    //     return $year;
+    // }*
+
+    public function getAge()
+    {
+        $dob = $this->getDateNaissance();
+
+        if ($dob instanceof \DateTimeInterface) {
+            $now = new \DateTime();
+            $diff = $now->diff($dob);
+            return $diff->y;
+        } else {
+            return null; 
+        }
+    }
+
+    public function serialize() {
+
+        return serialize(array(
+        $this->id,
+        $this->email,
+        $this->password,
+        ));
+        
+        }
+        
+        public function unserialize($serialized) {
+        
+        list (
+        $this->id,
+        $this->email,
+        $this->password,
+        ) = unserialize($serialized);
+        }
+
+   
 }

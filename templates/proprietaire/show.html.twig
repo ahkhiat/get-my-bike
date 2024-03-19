@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Proprietaire</h1>
 
+    {{ dump( proprietaire.motos) }}
+    
     <table class="table">
         <tbody>
             <tr>
@@ -16,16 +18,36 @@
                 <td>{{ proprietaire.estSuperHote ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>NombreNotes</th>
-                <td>{{ proprietaire.nombreNotes }}</td>
-            </tr>
-            <tr>
-                <th>MoyenneNotes</th>
-                <td>{{ proprietaire.moyenneNotes }}</td>
-            </tr>
-            <tr>
                 <th>IBAN</th>
                 <td>{{ proprietaire.IBAN }}</td>
+            </tr>
+            <tr>
+                <th>Nombre motos</th>
+                <td>{{ proprietaire.nombremotos }}</td>
+            </tr>
+            <tr>
+                <th>Moyenne</th>
+                {# <td>{{ proprietaire.average }}</td> #}
+            </tr>
+            <tr>
+                <th>Nombre de 1</th>
+                {# <td>{{ proprietaire.nombreun }}</td> #}
+            </tr>
+            <tr>
+                <th>Nombre de 2</th>
+                {# <td>{{ proprietaire.nombredeux }}</td> #}
+            </tr>
+            <tr>
+                <th>Nombre de 3</th>
+                {# <td>{{ proprietaire.nombretrois }}</td> #}
+            </tr>
+            <tr>
+                <th>Nombre de 4</th>
+                {# <td>{{ proprietaire.nombrequatre }}</td> #}
+            </tr>
+            <tr>
+                <th>Nombre de 5</th>
+                {# <td>{{ proprietaire.nombrecinq }}</td> #}
             </tr>
         </tbody>
     </table>

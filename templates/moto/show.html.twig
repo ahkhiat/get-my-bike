@@ -4,12 +4,17 @@
 
 {% block body %}
     <h1>Moto</h1>
+    {{ dump(moto) }}
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ moto.id }}</td>
+            </tr>
+            <tr>
+                <th>Propriétaire</th>
+                <td> <a href="{{ path('app_user_show', {'id': moto.proprietaire.user.id}) }}">{{ moto.proprietaire.user.prenom }} {{ moto.proprietaire.user.nom}}</a> </td>
             </tr>
             <tr>
                 <th>Annee</th>
@@ -33,7 +38,27 @@
             </tr>
             <tr>
                 <th>MoyenneNotes</th>
-                <td>{{ moto.moyenneNotes }}</td>
+                <td>{{ moto.average }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de 1</th>
+                <td>{{ moto.nombreun }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de 2</th>
+                <td>{{ moto.nombredeux }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de 3</th>
+                <td>{{ moto.nombretrois }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de 4</th>
+                <td>{{ moto.nombrequatre }}</td>
+            </tr>
+            <tr>
+                <th>Nombre de 5</th>
+                <td>{{ moto.nombrecinq }}</td>
             </tr>
         </tbody>
     </table>

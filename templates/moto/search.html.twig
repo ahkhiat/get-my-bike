@@ -4,32 +4,74 @@
 {% endblock %}
 
 {% block body %}
+<div class="d-flex flex-row">
 
-	{% for moto in motos %}
+	<div class="colonne-gauche col-12  col-sm-12 col-md-9 col-lg-4">
+		{% for moto in motos %}
+			<div class="card mb-3 col-12  col-sm-12 col-md-12 col-lg-12">
+				<div class="row no-gutters" >
+					<div class="col-md-5 " >
+						<img src={{ '/images/moto/' ~ moto.imageName }} class="card-img-top img-fluid img-thumbnail" alt="..." style="height: 25vh;">
+					</div>
+					<div class="col-md-7">
+						<div class="card-body d-flex flex-column justify-content-between">
+							<div class="d-flex flex-row justify-content-between">
+								<h5 class="card-title"> {{moto.modele.libelle}} </h5>
+								
+								<a href="{{ path('app_moto_fiche', {'id': moto.id}) }}">
+									<button type="button" class="btn btn-outline-secondary stretched-link " data-bs-toggle="modal" data-bs-target="#ficheMoto{{ moto.id }}">
+										<i class="fa-solid fa-list"></i>
+									</button>
+								</a>
+							</div >
 
-		<div class="card mb-3 w-50">
-			<div class="row no-gutters">
-				<div class="col-md-5">
-					<img src={{ '/images/moto/' ~ moto.imageName }} class="card-img" alt="...">
-				</div>
-				<div class="col-md-7">
-					<div class="card-body">
-						<h5 class="card-title">{{ moto.modele.libelle }}</h5>
-						{# <p class="card-text">{{ moto.description }}</p> #}
-						<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+							<div class=" d-flex">
+								<div class="d-flex flex-column  justify-content-around align-items-center">
+									<i class="fa-solid fa-star" style="color: orange;"></i>
+									<i class="fa-solid fa-location-dot"></i>
+								</div>
+								<div class="d-flex flex-column  justify-content-around ps-1 ">
+									<p class="card-text small text-muted mb-1 "> {{ moto.average|number_format(2, '.', ',') }}/5 ({{ moto.nombrenotes }})</p>
+									<p class="card-text small text-muted mb-0 ">
+									{% if moto.villemoto %}
+										{{moto.villemoto}}
+									{% else %} 
+										{{ moto.proprietaire.user.ville }}
+									{% endif %}
+									</p>
+								</div>
+								
+							</div>
 
-						<div class="card border-secondary mb-3" style="max-width: 6rem;">
-							<div class="card-body text-dark">
-								<h5 class="card-title">{{ moto.prixjour }} €</h5>
+							<div class="card-body text-dark d-flex flex-column align-self-end justify-self-end">
+								<h4 class="card-title">{{ moto.prixjour }} €</h4>
 								<p class="card-text">par jour</p>
 							</div>
-            </div>
-
 
 						</div>
 					</div>
 				</div>
 			</div>
 		{% endfor %}
+	</div>
 
+	<div class="colonne-droite border border-danger d-none d-lg-block">
+		<div class="map-responsive">
+			<iframe
+			width="1000"
+			height="650"
+			style="border:0"
+			loading="lazy"
+			allowfullscreen
+			referrerpolicy="no-referrer-when-downgrade"
+			src="https://www.google.com/maps/embed/v1/place?key={{API_KEY}}
+				&q=Space+Needle,Seattle+WA">
+			</iframe>
+		</div>
+	</div>
+
+	</div>
 	{% endblock %}
+
+
+
