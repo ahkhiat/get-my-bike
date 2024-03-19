@@ -46,7 +46,44 @@
                                     <div class="border border-solid border-2 border-black rounded p-2 w-25 d-grid gap-2 h-25 align-self-start text-center">
                                         <p class="mb-1 h3">{{ moto.prixjour }} €</p>
                                         <p class="small text-muted mb-0">/ par jour</p>
-                                        <button type="button " class="btn btn-primary mt-2 ">Reserver</button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalDates">
+                                            Reserver
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="ModalDates" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered ">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Je veux reserver cette moto</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body ">
+                                                <div class="d-flex justify-content-around">
+                                                <div>
+                                                    <label for ="date-debut" class="form-label">Date début</label>
+                                                    <input type="date" class="form-control" id="date_debut" aria-describedby="date_debut" >
+                                                </div>
+                                               <div>
+                                                    <label for="date_fin" class="form-label">Date fin</label>
+                                                    <input type="date" class="form-control" id="date_fin" aria-describedby="date_fin">
+                                               </div>
+                                               
+                                                </div>
+                                                
+
+                                               <div style="overflow:hidden;">
+   
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                <button type="button" class="btn btn-primary">Reserver !</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
                             </div>
