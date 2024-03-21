@@ -47,6 +47,7 @@ class ProprietaireController extends AbstractController
     #[Route('/{id}', name: 'app_proprietaire_show', methods: ['GET'])]
     public function show(Proprietaire $proprietaire, Moto $moto): Response
     {
+       
         return $this->render('proprietaire/show.html.twig', [
             'proprietaire' => $proprietaire,
             'moto' => $moto,
@@ -54,8 +55,11 @@ class ProprietaireController extends AbstractController
     }
 
     #[Route('/public/{id}', name: 'app_proprietaire_show_public', methods: ['GET'])]
-    public function show_p(User $user, Proprietaire $proprietaire): Response
+    public function show_p(User $user, Proprietaire $proprietaire, ProprietaireRepository $proprietaireRepository): Response
     {
+        $pro=$proprietaireRepository->findBy(['user'=>$user]);
+        // dd($pro);
+        // dd($proprietaire);
         return $this->render('proprietaire/show_p.html.twig', [
             'user' => $user,
             'proprietaire' => $proprietaire,

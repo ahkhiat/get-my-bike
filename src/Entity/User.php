@@ -68,7 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Proprietaire::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $proprietaires;
 
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'utilisateur')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'user')]
     private Collection $reservations;
 
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'user')]
@@ -305,6 +305,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getNombreReservations(): ?string
     {
       // -----   Ne marche pas, à faire --------
+      $reservations = $this->reservations;
+
+      $this->nombreReservations = count($reservations);
+      return $this->nombreReservations;
     }
 
     public function removeReservation(Reservation $reservation): static

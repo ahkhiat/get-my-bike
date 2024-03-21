@@ -160,7 +160,6 @@ class Proprietaire
         foreach ($motos as $moto)
         {
             $commentaires = $moto->getCommentaires();
-            // $nombreReservations += $reservations;
             $nombreCommentaires += count($commentaires);
         }
         return $nombreCommentaires;
